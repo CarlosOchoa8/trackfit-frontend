@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { hamburgerAnimations, mobileMenuAnimations } from './animations';
 import { IoIosFitness } from "react-icons/io";
 
-
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -19,7 +18,6 @@ const Header = () => {
         <h1>Mi Logo</h1>
       </div>
       
-      {/* Menú de Escritorio */}
       <nav className="desktop-menu">
         <ul>
           <li><a href="#home">Home</a></li>
@@ -29,28 +27,14 @@ const Header = () => {
         </ul>
       </nav>
 
-      {/* Menú Hamburguesa */}
       <div className="hamburger" onClick={toggleMenu}>
-        {/* <motion.div
-          className="bar"
-          variants={hamburgerAnimations.bar1}
-          initial="initial"
-          animate={isMenuOpen ? "open" : "initial"}
-        />
         <motion.div
-          className="bar"
-          variants={hamburgerAnimations.bar2}
-          initial="initial"
-          animate={isMenuOpen ? "open" : "initial"}
-        />
-        <motion.div
-          className="bar"
-          variants={hamburgerAnimations.bar3}
-          initial="initial"
-          animate={isMenuOpen ? "open" : "initial"}
-        /> */}
-        <IoIosFitness size={30} color="#ffffff" />
-
+          initial={{ y: 0 }}
+          animate={{ y: isMenuOpen ? 10 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <IoIosFitness size={30} color="#ffffff" />
+        </motion.div>
       </div>
 
       {/* Menú desplegable en dispositivos móviles */}
@@ -64,9 +48,7 @@ const Header = () => {
         >
           <ul>
             <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#about">About us</a></li>
           </ul>
         </motion.div>
       )}

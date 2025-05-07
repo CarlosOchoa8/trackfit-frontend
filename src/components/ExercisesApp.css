@@ -1,0 +1,28 @@
+/* ExerciseApp.css o App.css */
+.exercise-app-container {
+    border: 5px solid pink;
+    /* display: flex;
+    flex-direction: column;
+    align-items: center; */
+    /* gap: 2rem; */
+    /* padding: 2rem; */
+    /* width: 1000px;/ */
+    /* width: 100%; */
+    /* box-sizing: border-box; */
+}
+
+/* ExercisesApp.css */
+.exercise-app-container {
+    display: flex;
+    flex-direction: row;
+    /* lado a lado en desktop */
+    flex-wrap: wrap;
+    /* que se acomoden verticalmente en pantallas pequeñas */
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem;
+    gap: 2rem;
+    max-width: 100vw;
+    box-sizing: border-box;
+}
+    

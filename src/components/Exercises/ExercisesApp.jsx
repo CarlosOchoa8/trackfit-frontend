@@ -17,16 +17,16 @@ let initData = [
     ]}},
 ]
 
-
 const ExerciseApp = () => {
     const [exerciseData, setExerciseData] = useState(initData)
 
     const handleFormSubmit = (formData) => {
     setExerciseData(prevData => {
-        const exerciseExists = prevData.find(item => item.exercise.name === formData.name)
+        const cleanedData = prevData.filter(item => item.exercise.name);
+        const exerciseExists = cleanedData.find(item => item.exercise.name === formData.name);
 
         if (exerciseExists) {
-            return prevData.map(item => {
+            return cleanedData.map(item => {
                 if (item.exercise.name === formData.name) {
                     return {
                         exercise: {
@@ -44,11 +44,11 @@ const ExerciseApp = () => {
                         }
                     }
                 }
-                return item
-            })
+                return item;
+            });
         } else {
             return [
-                ...prevData,
+                ...cleanedData,
                 {
                     exercise: {
                         name: formData.name,
@@ -61,10 +61,10 @@ const ExerciseApp = () => {
                         }]
                     }
                 }
-            ]
+            ];
         }
-    })
-}
+    });
+};
 
     return (
         <>

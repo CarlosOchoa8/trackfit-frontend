@@ -1,3 +1,66 @@
 .exercise-item-cont {
-    border: 3px solid rgb(255, 93, 193);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.exercise-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    transition: box-shadow 0.3s ease;
+}
+
+.exercise-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.exercise-image-placeholder {
+    width: 60px;
+    height: 60px;
+    background-color: #d3d3d3;
+    border-radius: 8px;
+}
+
+.exercise-name {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.exercise-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    font-weight: bold;
+    padding: 0.5rem;
+    background-color: #f5f7fa;
+    border-radius: 6px;
+    color: #555;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    padding: 0.5rem;
+    background-color: #f0f4f8;
+    border-radius: 6px;
+    color: black;
+    transition: background-color 0.2s ease;
+}
+
+.table-row:hover {
+    background-color: #e2eaf3;
 }

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import ExerciseForm from "../Form/ExerciseForm";
-import ExerciseItem from "../Exercises/ExerciseItem";
+import ExerciseForm from "./Form/ExerciseForm";
+import ExerciseItem from "./Exercises/ExerciseItem";
+import "./ExercisesApp.css";
 
 
 let initData = [
@@ -68,20 +69,12 @@ const ExerciseApp = () => {
 
     return (
         <>
-        <div>
-        <h2>Aqui deberia renderizar el Formulario</h2>
-        <ExerciseForm
-        handleSubmit={handleFormSubmit}
-        />
-        </div>
-        <div>
-        <h2>Aqui deberia renderizar la informacion</h2>
-        <ExerciseItem
-        exercisesData={exerciseData}
-        />
-        </div>
+            <div className="exercise-app-container">
+                <ExerciseForm handleSubmit={handleFormSubmit} />
+                <ExerciseItem exercisesData={exerciseData} />
+            </div>
         </>
-    )
+    );
 }
 
 export default ExerciseApp;

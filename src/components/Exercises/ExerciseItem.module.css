@@ -1,18 +1,12 @@
-.exercise-item-cont {
-    border: 5px solid red;
-    width: 100%;
-    /* JUGAR CON ESTO */
-    /* width: 1000px; */
-    /* max-width: 1000px; */
-    box-sizing: border-box;
-    padding: 1rem;
+.exerciseItemCont {
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 2rem;
     font-family: 'Segoe UI', sans-serif;
 }
 
-.exercise-card {
+.exerciseCard {
     background: #ffffff;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
@@ -20,34 +14,34 @@
     transition: box-shadow 0.3s ease;
 }
 
-.exercise-header {
+.exerciseHeader {
     display: flex;
     align-items: center;
     gap: 1rem;
     margin-bottom: 1rem;
 }
 
-.exercise-image-placeholder {
+.exerciseImagePlaceholder {
     width: 60px;
     height: 60px;
     background-color: #d3d3d3;
     border-radius: 8px;
 }
 
-.exercise-name {
+.exerciseName {
     font-size: 1.3rem;
     font-weight: 600;
     color: #333;
 }
 
-.exercise-table {
+.exerciseTable {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     font-size: 0.95rem;
 }
 
-.table-header {
+.tableHeader {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     font-weight: bold;
@@ -57,7 +51,7 @@
     color: #555;
 }
 
-.table-row {
+.tableRow {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     padding: 0.5rem;
@@ -67,6 +61,6 @@
     transition: background-color 0.2s ease;
 }
 
-.table-row:hover {
+.tableRow:hover {
     background-color: #e2eaf3;
 }

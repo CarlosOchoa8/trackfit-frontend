@@ -14,7 +14,6 @@ body {
 .form-container {
     max-width: 900px;
     margin: 0 auto;
-    border: 5px solid red;
     padding: .5rem 1.5rem;
     background-color: #fff;
     border-radius: 8px;

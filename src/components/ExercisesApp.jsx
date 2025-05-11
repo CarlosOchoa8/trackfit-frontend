@@ -2,38 +2,27 @@ import React, { useState } from "react";
 import ExerciseForm from "./Form/ExerciseForm";
 import ExerciseItem from "./Exercises/ExerciseItem";
 import "./ExercisesApp.css";
+import { httpRequest } from "../helpers/httpRequest";
 
-
-let initData = [
-    {exercise: {
-        name: null,
-        data: [
-        {
-            date: null,
-            weight: 0,
-            reps: 0,
-            series: 0,
-            intensityMeasure: ""
-        }
-    ]}},
-]
+const initData = [];
 
 const ExerciseApp = () => {
-    const [exerciseData, setExerciseData] = useState(initData)
+    const [exerciseData, setExerciseData] = useState(initData);
 
     const handleFormSubmit = (formData) => {
-    setExerciseData(prevData => {
-        const cleanedData = prevData.filter(item => item.exercise.name);
-        const exerciseExists = cleanedData.find(item => item.exercise.name === formData.name);
+        let updatedData;
 
-        if (exerciseExists) {
-            return cleanedData.map(item => {
-                if (item.exercise.name === formData.name) {
-                    return {
-                        exercise: {
-                            ...item.exercise,
+        setExerciseData(prevData => {
+            const cleanedData = prevData.filter(item => item.name);
+            const exerciseExists = cleanedData.find(item => item.name === formData.name);
+
+            if (exerciseExists) {
+                updatedData = cleanedData.map(item => {
+                    if (item.name === formData.name) {
+                        return {
+                            ...item,
                             data: [
-                                ...item.exercise.data,
+                                ...item.data,
                                 {
                                     date: formData.date,
                                     weight: formData.weight,
@@ -42,16 +31,14 @@ const ExerciseApp = () => {
                                     intensityMeasure: formData.intensityMeasure,
                                 }
                             ]
-                        }
+                        };
                     }
-                }
-                return item;
-            });
-        } else {
-            return [
-                ...cleanedData,
-                {
-                    exercise: {
+                    return item;
+                });
+            } else {
+                updatedData = [
+                    ...cleanedData,
+                    {
                         name: formData.name,
                         data: [{
                             date: formData.date,
@@ -61,11 +48,44 @@ const ExerciseApp = () => {
                             intensityMeasure: formData.intensityMeasure,
                         }]
                     }
-                }
-            ];
-        }
-    });
-};
+                ];
+            }
+
+            return updatedData;
+        });
+
+        // Mover la petición FUERA del setState
+        // setTimeout(() => {
+        //     const body = {
+        //         exercises: updatedData.map(item => ({
+        //             name: item.name,
+        //             data: item.data
+        //         }))
+        //     };
+
+        //     console.log("DATA QUE VOY A MANDAR ============>", body);
+
+        //     const request = httpRequest();
+        //     const rapidApiOptions = {
+        //         headers: {
+        //             "x-rapidapi-key": import.meta.env.VITE_EXERCISE_API_KEY,
+        //             "x-rapidapi-host": import.meta.env.VITE_EXERCISE_API_HOST,
+        //             "accept": "application/json",
+        //             "Content-Type": "application/json"
+        //         },
+        //         body
+        //     };
+
+        //     request.post(
+        //         "http://localhost:80/trackfit_api/calculate",
+        //         rapidApiOptions
+        //     )
+        //         .then(data => {
+        //             console.log("MI RESPUESTA ES ESTA", data);
+        //         })
+        //         .catch(console.error);
+        // }, 0);
+    };
 
     return (
         <>
@@ -75,6 +95,6 @@ const ExerciseApp = () => {
             </div>
         </>
     );
-}
+};
 
 export default ExerciseApp;

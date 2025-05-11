@@ -26,7 +26,7 @@ const ExerciseItem = ({ exercisesData }) => {
             </div>
 
             <AnimatePresence>
-                {(!exercisesData || exercisesData.length === 0 || !exercisesData[0].exercise.name) ? (
+                {(!exercisesData || exercisesData.length === 0) ? (
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -56,8 +56,8 @@ const ExerciseItem = ({ exercisesData }) => {
                             <div className="exercise-header">
                                 <div className="exercise-image-placeholder" />
                                 <div className="exercise-info">
-                                    <h3 className="exercise-name">{item.exercise.name}</h3>
-                                    <span className="exercise-count">{item.exercise.data.length} {item.exercise.data.length === 1 ? 'registro' : 'registros'}</span>
+                                    <h3 className="exercise-name">{item.name}</h3>
+                                    <span className="exercise-count">{item.data.length} {item.data.length === 1 ? 'registro' : 'registros'}</span>
                                 </div>
                             </div>
 
@@ -71,7 +71,7 @@ const ExerciseItem = ({ exercisesData }) => {
                                     <span>RPE / RIR</span>
                                 </div>
                                 <div className="table-body">
-                                    {item.exercise.data.map((data, i) => (
+                                    {item.data.map((data, i) => (
                                         <div key={i} className="table-row">
                                             <span>{formatDate(data.date)}</span>
                                             <span>{data.weight || '-'}</span>

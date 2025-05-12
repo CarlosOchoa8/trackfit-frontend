@@ -1,22 +1,22 @@
 export const httpRequest = () => {
     const customFetch = (url, options) => {
-        const defaultHeader = {
-            accept: "application/json"
+        const defaultHeaders = {
+            accept: "application/json",
         };
 
         const controller = new AbortController();
         options.signal = controller.signal;
         options.method = options.method || "GET"
-        options.header = options.header ? {
-            ...defaultHeader, ...options.header
-        } : defaultHeader;
+        options.headers = options.headers ? {
+            ...defaultHeaders, ...options.headers
+        } : defaultHeaders;
         options.body = JSON.stringify(options.body) || false;
 
         if(!options.body) delete options.body;
 
         setTimeout(() => {
             controller.abort()
-        }, 1000);
+        }, 4000);
 
         return fetch(url, options).then(
             res => res.ok ? res.json(): Promise.reject({
@@ -32,6 +32,9 @@ export const httpRequest = () => {
     }
     
     const post = (url, options = {}) => {
+        options.headers = {
+            "Content-Type": "application/json"
+        }
         options.method = "POST"
         return customFetch(url, options)
     }

@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { IoAnalyticsOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
+import {
+    buttonVariants,
+    iconAnimation,
+    buttonTapAnimation,
+    spinnerAnimation,
+    resultsVariants
+} from "./animations";
 import "./PerformanceCalculator.css";
 
 const PerformanceCalculator = ({ exerciseData }) => {
@@ -20,46 +27,6 @@ const PerformanceCalculator = ({ exerciseData }) => {
         }, 1000);
     };
 
-    // Variantes de animación para el botón
-    const buttonVariants = {
-        hidden: {
-            opacity: 0,
-            y: 20,
-            scale: 0.9
-        },
-        visible: {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            transition: {
-                type: "spring",
-                stiffness: 260,
-                damping: 20,
-                duration: 0.6
-            }
-        }
-    };
-
-    // Variantes para el contenedor de resultados
-    const resultsVariants = {
-        hidden: {
-            opacity: 0,
-            y: 10,
-            height: 0
-        },
-        visible: {
-            opacity: 1,
-            y: 0,
-            height: "auto",
-            transition: {
-                type: "spring",
-                stiffness: 300,
-                damping: 24,
-                duration: 0.5
-            }
-        }
-    };
-
     return (
         <div className="performance-container">
             <motion.button
@@ -69,13 +36,13 @@ const PerformanceCalculator = ({ exerciseData }) => {
                 initial="hidden"
                 animate="visible"
                 variants={buttonVariants}
-                whileTap={{ scale: 0.98 }}
+                whileTap={buttonTapAnimation}
             >
                 <motion.span
                     className="button-icon"
-                    initial={{ rotate: -10 }}
-                    animate={{ rotate: 0 }}
-                    transition={{ delay: 0.3, duration: 0.4, type: "spring" }}
+                    initial={iconAnimation.initial}
+                    animate={iconAnimation.animate}
+                    transition={iconAnimation.transition}
                 >
                     <IoAnalyticsOutline className={isLoading ? "pulse-icon" : ""} />
                 </motion.span>
@@ -85,9 +52,9 @@ const PerformanceCalculator = ({ exerciseData }) => {
                 {isLoading && (
                     <motion.span
                         className="spinner-container"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.2 }}
+                        initial={spinnerAnimation.initial}
+                        animate={spinnerAnimation.animate}
+                        transition={spinnerAnimation.transition}
                     >
                         <div className="spinner"></div>
                     </motion.span>

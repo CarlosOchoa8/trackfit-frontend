@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ExerciseForm from "./Form/ExerciseForm";
 import ExerciseItem from "./Exercises/ExerciseItem";
 import "./ExercisesApp.css";
-import { httpRequest } from "../helpers/httpRequest";
+import PerformanceCalculator from "./Calculator/PerformanceCalculator";
 
 const initData = [];
 
@@ -54,37 +54,6 @@ const ExerciseApp = () => {
             return updatedData;
         });
 
-        // Mover la petición FUERA del setState
-        // setTimeout(() => {
-        //     const body = {
-        //         exercises: updatedData.map(item => ({
-        //             name: item.name,
-        //             data: item.data
-        //         }))
-        //     };
-
-        //     console.log("DATA QUE VOY A MANDAR ============>", body);
-
-        //     const request = httpRequest();
-        //     const rapidApiOptions = {
-        //         headers: {
-        //             "x-rapidapi-key": import.meta.env.VITE_EXERCISE_API_KEY,
-        //             "x-rapidapi-host": import.meta.env.VITE_EXERCISE_API_HOST,
-        //             "accept": "application/json",
-        //             "Content-Type": "application/json"
-        //         },
-        //         body
-        //     };
-
-        //     request.post(
-        //         "http://localhost:80/trackfit_api/calculate",
-        //         rapidApiOptions
-        //     )
-        //         .then(data => {
-        //             console.log("MI RESPUESTA ES ESTA", data);
-        //         })
-        //         .catch(console.error);
-        // }, 0);
     };
 
     return (
@@ -92,6 +61,9 @@ const ExerciseApp = () => {
             <div className="exercise-app-container">
                 <ExerciseForm handleSubmit={handleFormSubmit} />
                 <ExerciseItem exercisesData={exerciseData} />
+                {exerciseData.length > 0 && (
+                    <PerformanceCalculator exerciseData={exerciseData} />
+                )}
             </div>
         </>
     );

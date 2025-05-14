@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
 import "./ExerciseForm.css";
 
 import { httpRequest } from "../../helpers/httpRequest";
 
 const initForm = {
     name: "",
-    date: "",
+    date: new Date(), // Ahora inicializamos con un objeto Date
     weight: 0,
     reps: 0,
     series: 0,
@@ -29,11 +29,35 @@ const ExerciseForm = ({ handleSubmit }) => {
     const [showPicker, setShowPicker] = useState(false);
     const [activeField, setActiveField] = useState(null);
 
+    // Inicializar la fecha cuando el componente se monta
+    useEffect(() => {
+        setForm(prev => ({
+            ...prev,
+            date: new Date() // Inicializa con la fecha actual
+        }));
+    }, []);
+
     const handleForm = (e) => {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value,
-        });
+        const { name, value } = e.target;
+
+        // Manejo especial para el campo de fecha
+        if (name === "date") {
+            // Convertir el string de fecha a un objeto Date
+            // La fecha viene en formato YYYY-MM-DD del input
+            const dateObj = new Date(value);
+            // Resetear la hora a 00:00:00 para que solo importe la fecha
+            dateObj.setHours(0, 0, 0, 0);
+
+            setForm({
+                ...form,
+                [name]: dateObj
+            });
+        } else {
+            setForm({
+                ...form,
+                [name]: value,
+            });
+        }
     };
 
     const loadExercises = (newOffset = 0) => {
@@ -46,7 +70,9 @@ const ExerciseForm = ({ handleSubmit }) => {
                 setExercisesList(data);
                 setOffset(newOffset);
             })
-            .catch(console.error)
+            .catch((error) => {
+                console.error("Error cargando ejercicios:", error);
+            })
             .finally(() => setLoading(false));
     };
 
@@ -58,15 +84,57 @@ const ExerciseForm = ({ handleSubmit }) => {
 
     const handlePageChange = (direction) => {
         const newOffset = direction === "next" ? offset + 10 : offset - 10;
-        if (newOffset >= 0) loadExercises(newOffset);
+        if (newOffset >= 0) { loadExercises(newOffset); }
     };
 
-    const formatDate = () => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
+    // Formatea la fecha para el input de tipo date
+    const formatDateForInput = (date) => {
+        if (!date) { return "";}
+
+        // Si ya es un string en formato YYYY-MM-DD, devuélvelo tal cual
+        if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+            return date;
+        }
+
+        // Convertir a objeto Date si es un string en otro formato
+        const dateObj = typeof date === 'string' ? new Date(date) : date;
+
+        // Verificar si es una fecha válida
+        if (!(dateObj instanceof Date) || isNaN(dateObj)) {
+            return "";
+        }
+
+        const year = dateObj.getFullYear();
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const day = String(dateObj.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
+    };
+
+    // Función para manejar el envío del formulario
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+
+        // Crear una copia del formulario para enviar
+        const formToSubmit = { ...form };
+
+        // Asegurarse de que la fecha está en formato de objeto Date sin la hora
+        if (formToSubmit.date instanceof Date) {
+            // Ya es un objeto Date, solo asegurarse de que la hora esté a 0
+            formToSubmit.date.setHours(0, 0, 0, 0);
+            formToSubmit.date.toISOString()
+        } else if (typeof formToSubmit.date === 'string') {
+            // Si es un string, convertirlo a Date
+            const dateObj = new Date(formToSubmit.date);
+            dateObj.setHours(0, 0, 0, 0);
+            dateObj.toISOString()
+            formToSubmit.date = dateObj;
+        }
+
+        // Llamar a la función handleSubmit que viene como prop
+        handleSubmit(formToSubmit);
+
+        // Opcional: resetear el formulario después de enviar
+        // setForm(initForm);
     };
 
     return (
@@ -83,17 +151,14 @@ const ExerciseForm = ({ handleSubmit }) => {
 
             <form
                 className="form-content"
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    handleSubmit(form);
-                }}
+                onSubmit={handleFormSubmit}
             >
                 <div className="form-layout">
                     <div
                         className="form-image-container"
                         onClick={() => {
                             setShowPicker(true);
-                            if (exercisesList.length === 0) loadExercises();
+                            if (exercisesList.length === 0) {loadExercises();}
                         }}
                     >
                         {selectedExercise ? (
@@ -142,7 +207,7 @@ const ExerciseForm = ({ handleSubmit }) => {
                                     type="date"
                                     id="exercise-date"
                                     name="date"
-                                    defaultValue={formatDate()}
+                                    value={formatDateForInput(form.date)}
                                     onChange={handleForm}
                                     onFocus={() => setActiveField("date")}
                                     onBlur={() => setActiveField(null)}

@@ -1,9 +1,12 @@
-import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import React, { useState } from "react";
 import "./ExerciseItem.css";
 
 
 const ExerciseItem = ({ exercisesData }) => {
+    // Estado para controlar qué grupos de fecha están expandidos
+    const [expandedGroups, setExpandedGroups] = useState({});
+
     const formatDate = (date) => {
         if (!date) { return '-'; }
 
@@ -39,6 +42,47 @@ const ExerciseItem = ({ exercisesData }) => {
         return String(date);
     };
 
+    // Función para agrupar los datos por fecha
+    const groupDataByDate = (data) => {
+        const groupedData = {};
+
+        data.forEach(entry => {
+            const dateKey = entry.date;
+            if (!groupedData[dateKey]) {
+                groupedData[dateKey] = [];
+            }
+            groupedData[dateKey].push(entry);
+        });
+
+        // Convertir el objeto agrupado en un array de objetos
+        return Object.keys(groupedData).map(date => ({
+            date,
+            entries: groupedData[date]
+        }));
+    };
+
+    // Calcular el promedio de un valor numérico en un array de objetos
+    const calculateAverage = (array, property) => {
+        if (!array || array.length === 0) return 0;
+        const sum = array.reduce((acc, item) => acc + parseFloat(item[property] || 0), 0);
+        return (sum / array.length).toFixed(1);
+    };
+
+    // Alternar la expansión de un grupo de fecha
+    const toggleExpandGroup = (exerciseIndex, dateIndex) => {
+        const key = `${exerciseIndex}-${dateIndex}`;
+        setExpandedGroups(prev => ({
+            ...prev,
+            [key]: !prev[key]
+        }));
+    };
+
+    // Verificar si un grupo está expandido
+    const isGroupExpanded = (exerciseIndex, dateIndex) => {
+        const key = `${exerciseIndex}-${dateIndex}`;
+        return expandedGroups[key];
+    };
+
     return (
         <motion.div
             className="exercise-item-cont"
@@ -70,46 +114,84 @@ const ExerciseItem = ({ exercisesData }) => {
                         <span className="empty-subtitle">Los ejercicios que registres aparecerán aquí.</span>
                     </motion.div>
                 ) : (
-                    exercisesData.map((item, index) => (
-                        <motion.div
-                            key={index}
-                            className="exercise-card"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.4, delay: index * 0.1 }}
-                        >
-                            <div className="exercise-header">
-                                <div className="exercise-image-placeholder" />
-                                <div className="exercise-info">
-                                    <h3 className="exercise-name">{item.name}</h3>
-                                    <span className="exercise-count">{item.data.length} {item.data.length === 1 ? 'registro' : 'registros'}</span>
-                                </div>
-                            </div>
+                    exercisesData.map((item, exerciseIndex) => {
+                        // Agrupar los datos por fecha
+                        const groupedData = groupDataByDate(item.data);
 
-                            {/* Tabla de datos */}
-                            <div className="exercise-table">
-                                <div className="table-header">
-                                    <span>Fecha</span>
-                                    <span>Peso (kg)</span>
-                                    <span>Repeticiones</span>
-                                    <span>Series</span>
-                                    <span>RPE / RIR</span>
+                        return (
+                            <motion.div
+                                key={exerciseIndex}
+                                className="exercise-card"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.4, delay: exerciseIndex * 0.1 }}
+                            >
+                                <div className="exercise-header">
+                                    <div className="exercise-image-placeholder" />
+                                    <div className="exercise-info">
+                                        <h3 className="exercise-name">{item.name}</h3>
+                                        <span className="exercise-count">
+                                            {groupedData.length} {groupedData.length === 1 ? 'sesión' : 'sesiones'} con un total de {item.data.length} {item.data.length === 1 ? 'serie' : 'series'}
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className="table-body">
-                                    {item.data.map((data, i) => (
-                                        <div key={i} className="table-row">
-                                            <span>{formatDate(data.date)}</span>
-                                            <span>{data.weight || '-'}</span>
-                                            <span>{data.reps || '-'}</span>
-                                            <span>{data.series || '-'}</span>
-                                            <span>{data.intensityMeasure || '-'}</span>
-                                        </div>
-                                    ))}
+
+                                {/* Tabla de datos agrupados por fecha */}
+                                <div className="exercise-table">
+                                    <div className="table-header">
+                                        <span>Fecha</span>
+                                        <span>Series</span>
+                                        <span>Peso promedio</span>
+                                        <span>Reps promedio</span>
+                                        <span>RPE / RIR</span>
+                                    </div>
+                                    <div className="table-body">
+                                        {groupedData.map((dateGroup, dateIndex) => (
+                                            <React.Fragment key={dateIndex}>
+                                                <div
+                                                    className={`table-row date-group ${isGroupExpanded(exerciseIndex, dateIndex) ? 'expanded' : ''}`}
+                                                    onClick={() => toggleExpandGroup(exerciseIndex, dateIndex)}
+                                                >
+                                                    <span>{formatDate(dateGroup.date)}</span>
+                                                    <span>{dateGroup.entries.length}</span>
+                                                    <span>{calculateAverage(dateGroup.entries, 'weight')} kg</span>
+                                                    <span>{calculateAverage(dateGroup.entries, 'reps')}</span>
+                                                    <span>{dateGroup.entries[0].intensityMeasure || '-'}</span>
+                                                </div>
+
+                                                {/* Detalles de series expandibles */}
+                                                <AnimatePresence>
+                                                    {isGroupExpanded(exerciseIndex, dateIndex) && (
+                                                        <motion.div
+                                                            className="series-details"
+                                                            initial={{ opacity: 0, height: 0 }}
+                                                            animate={{ opacity: 1, height: "auto" }}
+                                                            exit={{ opacity: 0, height: 0 }}
+                                                            transition={{ duration: 0.3 }}
+                                                        >
+                                                            <div className="series-details-header">
+                                                                <span>Serie</span>
+                                                                <span>Peso (kg)</span>
+                                                                <span>Repeticiones</span>
+                                                            </div>
+                                                            {dateGroup.entries.map((entry, entryIndex) => (
+                                                                <div key={entryIndex} className="series-detail-row">
+                                                                    <span>Serie {entryIndex + 1}</span>
+                                                                    <span>{entry.weight || '-'}</span>
+                                                                    <span>{entry.reps || '-'}</span>
+                                                                </div>
+                                                            ))}
+                                                        </motion.div>
+                                                    )}
+                                                </AnimatePresence>
+                                            </React.Fragment>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
-                        </motion.div>
-                    ))
+                            </motion.div>
+                        );
+                    })
                 )}
             </AnimatePresence>
         </motion.div>

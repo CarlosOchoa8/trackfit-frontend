@@ -364,6 +364,95 @@ body {
     height: 16px;
 }
 
+/* Estilos adicionales para series dinámicas - Añadir al final de ExerciseForm.css */
+/* Contenedor de series */
+.series-container {
+    margin-top: 1.5rem;
+    border-top: 1px solid #f1f1f1;
+    padding-top: 1.5rem;
+}
+
+.series-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #222;
+    margin-bottom: 1rem;
+}
+
+/* Tarjetas de serie */
+.series-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.series-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    background-color: #f5f5f5;
+}
+
+.series-card:last-child {
+    margin-bottom: 0;
+}
+
+.series-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.series-number {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    margin: 0;
+}
+
+/* Modificaciones para input en series */
+.series-card .input-field {
+    margin-bottom: 1rem;
+}
+
+.series-card .input-field:last-child {
+    margin-bottom: 0;
+}
+
+.series-card .input-group {
+    margin-bottom: 0.5rem;
+}
+
+/* Botón de envío - aumentamos el margen superior */
+.form-container .submit-button {
+    margin-top: 1.5rem;
+    padding: 1rem 0;
+}
+
+/* Responsividad para series */
+@media (max-width: 768px) {
+    .series-card {
+        padding: 1rem;
+    }
+
+    .series-title {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .series-card .input-group {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .series-card {
+        padding: 1rem 0.75rem;
+    }
+}
+
 @keyframes spin {
     to {
         transform: rotate(360deg);

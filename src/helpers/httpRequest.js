@@ -18,13 +18,23 @@ export const httpRequest = () => {
             controller.abort()
         }, 4000);
 
-        return fetch(url, options).then(
-            res => res.ok ? res.json(): Promise.reject({
-                err: true,
-                status: res.status || "500",
-                statusText: res.statusTest || "There was an error during the call."
-            })
-        ).catch(err => err)
+        return fetch(url, options).then(res => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                return res.json()
+                    .catch(() => ({}))
+                    .then(errorBody => {
+                        return Promise.reject({
+                            err: true,
+                            status: res.status || "500",
+                            statusText: res.statusText || "There was an error during the call.",
+                            detail: errorBody.detail || errorBody,
+                            otraMadre: res || "asdasd"
+                        });
+                    });
+                }
+            }).catch(err => err)
     };
 
     const get = (url, options = {}) => {

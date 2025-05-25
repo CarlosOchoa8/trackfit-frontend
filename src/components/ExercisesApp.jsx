@@ -3,11 +3,13 @@ import PerformanceCalculator from "./Calculator/PerformanceCalculator";
 import ExerciseItem from "./Exercises/ExerciseItem";
 import "./ExercisesApp.css";
 import ExerciseForm from "./Form/ExerciseForm";
+import PerformanceResults from "./Results/PerformanceResults";
 
 const initData = [];
 
 const ExerciseApp = () => {
     const [exerciseData, setExerciseData] = useState(initData);
+    const [calcResponse, setCalcResponse] = useState(null);
 
     const handleFormSubmit = (formData) => {
         let updatedData;
@@ -65,14 +67,21 @@ const ExerciseApp = () => {
 
     };
 
+    const handlePerformanceResults = (response) => {
+        if (response.data) {
+            setCalcResponse(response)
+        }
+    }
+
     return (
         <>
             <div className="exercise-app-container">
                 <ExerciseForm handleSubmit={handleFormSubmit} />
                 <ExerciseItem exercisesData={exerciseData} />
                 {exerciseData.length > 0 && (
-                    <PerformanceCalculator exerciseData={exerciseData} />
+                    <PerformanceCalculator exerciseData={exerciseData} handlePerformanceResults={handlePerformanceResults}/>
                 )}
+                {calcResponse && (<PerformanceResults data={calcResponse}/>)}
             </div>
         </>
     );

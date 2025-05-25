@@ -9,9 +9,117 @@ import {
     resultsVariants
 } from "./animations";
 import "./PerformanceCalculator.css";
+import { httpRequest } from "../../helpers/httpRequest";
+
+const testData = [
+    {
+        "name": "HackSquat",
+        "data": [
+            {
+                "date": "2025-05-08",
+                "weight": 115,
+                "reps": 11,
+                "series": 1,
+                "intensityMeasure": "10"
+            },
+            {
+                "date": "2025-05-08",
+                "weight": 115,
+                "reps": 10,
+                "series": 1,
+                "intensityMeasure": "10"
+            },
+            {
+                "date": "2025-05-08",
+                "weight": 115,
+                "reps": 9,
+                "series": 1,
+                "intensityMeasure": "10"
+            }
+        ]
+    },
+    {
+        "name": "Press Militar",
+        "data": [
+            {
+                "date": "2025-05-08",
+                "weight": 115,
+                "reps": 11,
+                "series": 1,
+                "intensityMeasure": "10"
+            },
+            {
+                "date": "2025-05-08",
+                "weight": 115,
+                "reps": 10,
+                "series": 1,
+                "intensityMeasure": "10"
+            },
+            {
+                "date": "2025-05-08",
+                "weight": 115,
+                "reps": 9,
+                "series": 1,
+                "intensityMeasure": "10"
+            }
+        ]
+    },
+    {
+        "name": "Sentadilla Zumo",
+        "data": [
+            {
+                "date": "2025-05-08",
+                "weight": 115,
+                "reps": 11,
+                "series": 1,
+                "intensityMeasure": "10"
+            },
+            {
+                "date": "2025-05-08",
+                "weight": 111,
+                "reps": 10,
+                "series": 1,
+                "intensityMeasure": "10"
+            },
+            {
+                "date": "2025-05-09",
+                "weight": 120,
+                "reps": 9,
+                "series": 1,
+                "intensityMeasure": "10"
+            }
+        ]
+    },
+    {
+        "name": "Tricep",
+        "data": [
+            {
+                "date": "2025-05-06",
+                "weight": 115,
+                "reps": 11,
+                "series": 1,
+                "intensityMeasure": "10"
+            },
+            {
+                "date": "2025-05-06",
+                "weight": 115,
+                "reps": 10,
+                "series": 1,
+                "intensityMeasure": "10"
+            },
+            {
+                "date": "2025-05-06",
+                "weight": 115,
+                "reps": 9,
+                "series": 1,
+                "intensityMeasure": "10"
+            }
+        ]
+    }
+]
+
 
 const PerformanceCalculator = ({ exerciseData }) => {
-    console.log("CALCULADOR DE PERFORMANCAI===============data", exerciseData);
 
     const [isLoading, setIsLoading] = useState(false);
     const [showResults, setShowResults] = useState(false);
@@ -24,6 +132,34 @@ const PerformanceCalculator = ({ exerciseData }) => {
         setTimeout(() => {
             setIsLoading(false);
             setShowResults(true);
+        }, 1000);
+
+        setTimeout(() => {
+            setIsLoading(false);
+            setShowResults(true);
+            const body = {
+                exercises: testData.map(item => ({
+                    name: item.name,
+                    data: item.data
+                }))
+            };
+
+            const request = httpRequest();
+            const rapidApiOptions = {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body
+            };
+
+            request.post(
+                "http://localhost:80/trackfit_api/calculate",
+                rapidApiOptions
+            )
+                .then(data => {
+                    console.log("> MI RESPUESTA ES ESTA", data);
+                })
+                .catch(console.error);
         }, 1000);
     };
 

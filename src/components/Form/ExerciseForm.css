@@ -458,3 +458,28 @@ body {
         transform: rotate(360deg);
     }
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+filter: invert(0.5);
+opacity: 0.8;
+cursor: pointer;
+margin-right: 5px;
+padding: 5px;
+border-radius: 4px;
+transition: background-color 0.2s;
+}
+
+/* /* Efecto hover para el icono / */
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+filter: invert(0.7);
+background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Para Firefox */
+input[type="date"] {
+    position: relative;
+}
+
+.input-field input[type="date"] {
+padding-right: 30px;
+}

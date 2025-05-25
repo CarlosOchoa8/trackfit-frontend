@@ -11,6 +11,7 @@ import {
 import "./PerformanceCalculator.css";
 import { httpRequest } from "../../helpers/httpRequest";
 
+// TODO remover esto
 const testData = [
     {
         "name": "HackSquat",
@@ -119,24 +120,25 @@ const testData = [
 ]
 
 
-const PerformanceCalculator = ({ exerciseData }) => {
+const PerformanceCalculator = ({ exerciseData, handlePerformanceResults }) => {
 
     const [isLoading, setIsLoading] = useState(false);
-    const [showResults, setShowResults] = useState(false);
+    // const [showResults, setShowResults] = useState(false);
 
-    const handleRequest = () => {
+    const handleRequest = (e) => {
+        e.preventDefault()
         console.log("HANDLE REQUEST");
         setIsLoading(true);
 
         // Simulación de carga
         setTimeout(() => {
             setIsLoading(false);
-            setShowResults(true);
+            // setShowResults(true);
         }, 1000);
 
         setTimeout(() => {
             setIsLoading(false);
-            setShowResults(true);
+            // setShowResults(true);
             const body = {
                 exercises: testData.map(item => ({
                     name: item.name,
@@ -157,7 +159,7 @@ const PerformanceCalculator = ({ exerciseData }) => {
                 rapidApiOptions
             )
                 .then(data => {
-                    console.log("> MI RESPUESTA ES ESTA", data);
+                    handlePerformanceResults(data);
                 })
                 .catch(console.error);
         }, 1000);
@@ -197,7 +199,7 @@ const PerformanceCalculator = ({ exerciseData }) => {
                 )}
             </motion.button>
 
-            {showResults && (
+            {/* {showResults && (
                 <motion.div
                     className="results-container"
                     initial="hidden"
@@ -207,7 +209,7 @@ const PerformanceCalculator = ({ exerciseData }) => {
                     <h3 className="results-title">Resultados de Rendimiento</h3>
                     <p className="results-text">Información resultante de calcular rendimiento</p>
                 </motion.div>
-            )}
+            )} */}
         </div>
     );
 };

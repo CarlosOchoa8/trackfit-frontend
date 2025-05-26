@@ -96,12 +96,63 @@ const ExerciseForm = ({ handleSubmit }) => {
         }
     };
 
+    const detectIntensityType = (value) => {
+        const numValue = parseFloat(value);
+
+        if (isNaN(numValue)) {return null};
+
+        if (numValue >= 0 && numValue <= 5.5) {
+            return "RIR";
+        } else if (numValue >= 6 && numValue <= 10) {
+            return "RPE";
+        } else {
+            return null;
+        }
+    };
+
     // Función para manejar cambios en los datos de una serie específica
     const handleSeriesDataChange = (index, field, value) => {
+        let processedValue = value;
+
+        if (field === 'intensityMeasure') {
+            if (value === '') {
+                processedValue = '';
+            } else {
+                const numValue = parseFloat(value);
+
+                if (isNaN(numValue)) {
+                    return; // No permitir valores no numéricos
+                }
+
+                // Aplicar límites: mínimo 0, máximo 10
+                if (numValue < 0) {
+                    processedValue = '0';
+                } else if (numValue > 10) {
+                    processedValue = '10';
+                } else {
+                    // Redondear a pasos de 0.5
+                    processedValue = (Math.round(numValue * 2) / 2).toString();
+                }
+            }
+        }
+
+        // Validaciones para weight y reps (sin cambios)
+        if (field === 'weight' || field === 'reps') {
+            if (value === '') {
+                processedValue = '';
+            } else {
+                const numValue = parseFloat(value);
+                if (isNaN(numValue) || numValue < 0) {
+                    return;
+                }
+                processedValue = value;
+            }
+        }
+
         const updatedSeriesData = [...form.seriesData];
         updatedSeriesData[index] = {
             ...updatedSeriesData[index],
-            [field]: value
+            [field]: processedValue
         };
 
         setForm({
@@ -355,12 +406,16 @@ const ExerciseForm = ({ handleSubmit }) => {
 
                                         <div className="input-field">
                                             <input
-                                                type="text"
+                                                type="number"
                                                 id={`intensity-${index}`}
+                                                min="0"
+                                                max="10"
+                                                step="0.5"
                                                 value={seriesItem.intensityMeasure}
                                                 onChange={(e) => handleSeriesDataChange(index, "intensityMeasure", e.target.value)}
                                                 onFocus={() => setActiveField(`intensity-${index}`)}
                                                 onBlur={() => setActiveField(null)}
+                                                // placeholder="0-10"
                                                 required
                                             />
                                             <label
@@ -368,6 +423,10 @@ const ExerciseForm = ({ handleSubmit }) => {
                                                 className={seriesItem.intensityMeasure || activeField === `intensity-${index}` ? "active" : ""}
                                             >
                                                 RPE / RIR
+                                                {seriesItem.intensityMeasure && (() => {
+                                                    const type = detectIntensityType(seriesItem.intensityMeasure);
+                                                    return type ? ` (${type})` : '';
+                                                })()}
                                             </label>
                                             <div className={`input-underline ${activeField === `intensity-${index}` ? "active" : ""}`}></div>
                                         </div>

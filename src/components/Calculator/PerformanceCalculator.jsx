@@ -140,12 +140,13 @@ const PerformanceCalculator = ({ exerciseData, handlePerformanceResults }) => {
             setIsLoading(false);
             // setShowResults(true);
             const body = {
-                exercises: testData.map(item => ({
+                exercises: exerciseData.map(item => ({
+                // exercises: testData.map(item => ({
                     name: item.name,
                     data: item.data
                 }))
             };
-
+            console.log(body)
             const request = httpRequest();
             const rapidApiOptions = {
                 headers: {
@@ -155,7 +156,7 @@ const PerformanceCalculator = ({ exerciseData, handlePerformanceResults }) => {
             };
 
             request.post(
-                "http://localhost:80/trackfit_api/calculate",
+                "http://localhost:80/trackfit_api/performance/calculate",
                 rapidApiOptions
             )
                 .then(data => {

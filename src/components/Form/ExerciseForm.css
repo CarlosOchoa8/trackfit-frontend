@@ -615,3 +615,83 @@ input[type="date"] {
 /* .input-field input[type="date"] {
     padding-right: 30px;
 } */
+
+
+.intensity-field-container {
+    position: relative;
+}
+
+.intensity-help-badge {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 1rem;
+    height: 1rem;
+    background: rgba(107, 114, 128, 0.8);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    font-weight: 700;
+    cursor: help;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.intensity-help-badge:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(5, 150, 105, 0.3);
+}
+
+/* Cuando el campo está activo, cambiar color del badge */
+.input-field:focus-within .intensity-help-badge {
+    background: linear-gradient(135deg, #059669 0%, #059669cc 10%);
+    /* border-color: #3b82f6; */
+}
+
+.input-field:focus-within .intensity-help-badge:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+/* Animación sutil al aparecer */
+.intensity-help-badge {
+    animation: badgeSlideIn 0.3s ease-out;
+}
+
+@keyframes badgeSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .intensity-help-badge {
+        width: 1.1rem;
+        height: 1.1rem;
+        font-size: 0.65rem;
+        top: 0.65rem;
+        right: 0.65rem;
+    }
+}
+
+/* Asegurar que el badge no interfiera con el input */
+.intensity-field-container input {
+    padding-right: 2.5rem;
+}
+
+.intensity-help-badge:hover {
+    background: rgba(5, 150, 105, 0.9);
+    transform: scale(1.15);
+    box-shadow: 0 2px 8px rgba(5, 150, 105, 0.4);
+}

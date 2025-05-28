@@ -110,6 +110,41 @@ const ExerciseForm = ({ handleSubmit }) => {
         }
     };
 
+    const getIntensityTooltip = (value) => {
+        const type = detectIntensityType(value);
+
+        if (type === "RIR") {
+            return `RIR - Reps in Reserve (0-5.5)
+            Repetitions you could perform before muscular failure
+    
+            RIR Scale:
+            - 0: Muscular failure - Cannot do more reps
+            - 1: 1 rep in reserve - Very close to failure
+            - 2: 2 reps in reserve - High effort
+            - 3: 3 reps in reserve - Moderate effort
+            - 4-5: 4-5 reps in reserve - Light effort`;
+                } else if (type === "RPE") {
+                    return `RPE - Rate of Perceived Exertion (6-10)
+            Subjective perception of effort performed
+            
+            RPE Scale:
+            - 6-7: Easy - Can talk comfortably
+            - 8: Moderately difficult - Difficult conversation
+            - 9: Very difficult - Can barely speak
+            - 10: Maximum effort - Cannot maintain intensity`;
+                }
+
+        return `Intensity Measurement (0-10)
+    
+        RIR (0-5.5): Reps in Reserve
+        → Repetitions you could do before failure
+        
+        RPE (6-10): Rate of Perceived Exertion
+        → Subjective perception of effort performed
+        
+        The system automatically detects which scale to use based on the number you enter.`;
+    };
+
     // Función para manejar cambios en los datos de una serie específica
     const handleSeriesDataChange = (index, field, value) => {
         let processedValue = value;
@@ -404,7 +439,7 @@ const ExerciseForm = ({ handleSubmit }) => {
                                             </div>
                                         </div>
 
-                                        <div className="input-field">
+                                        <div className="input-field intensity-field-container">
                                             <input
                                                 type="number"
                                                 id={`intensity-${index}`}
@@ -415,7 +450,6 @@ const ExerciseForm = ({ handleSubmit }) => {
                                                 onChange={(e) => handleSeriesDataChange(index, "intensityMeasure", e.target.value)}
                                                 onFocus={() => setActiveField(`intensity-${index}`)}
                                                 onBlur={() => setActiveField(null)}
-                                                // placeholder="0-10"
                                                 required
                                             />
                                             <label
@@ -429,6 +463,14 @@ const ExerciseForm = ({ handleSubmit }) => {
                                                 })()}
                                             </label>
                                             <div className={`input-underline ${activeField === `intensity-${index}` ? "active" : ""}`}></div>
+
+                                            {/* Badge con ícono de ayuda */}
+                                            <div
+                                                className="intensity-help-badge"
+                                                title={getIntensityTooltip(seriesItem.intensityMeasure)}
+                                            >
+                                                ?
+                                            </div>
                                         </div>
                                     </motion.div>
                                 ))}

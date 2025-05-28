@@ -171,7 +171,7 @@ const PerformanceResults = ({ data }) => {
                                         </div>
                                         <div className="rm-formulas-container">
                                             <div className="rm-formula-row main-formula">
-                                                <span className="rm-formula-label">Epley (Principal)</span>
+                                                <span className="rm-formula-label">Epley</span>
                                                 <span className="rm-formula-result">{formatNumber(formulas.epley)} kg</span>
                                             </div>
                                             <div className="rm-formula-row">

@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import "./ExerciseItem.css";
+import { GiWeightLiftingUp } from "react-icons/gi";
 
 
 const ExerciseItem = ({ exercisesData }) => {
@@ -91,8 +92,8 @@ const ExerciseItem = ({ exercisesData }) => {
             transition={{ duration: 0.4 }}
         >
             <div className="form-header">
-                <h1 className="form-title">Mis Ejercicios</h1>
-                <p className="form-subtitle">Registro de tus entrenamientos</p>
+                {/* <h1 className="form-title">Mis Ejercicios</h1> */}
+                <p className="form-subtitle">Workout</p>
             </div>
 
             <AnimatePresence>
@@ -105,13 +106,14 @@ const ExerciseItem = ({ exercisesData }) => {
                         className="empty-exercises"
                     >
                         <div className="empty-icon">
-                            <svg className="exercise-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <GiWeightLiftingUp size={50} color="#68AF9B"/>
+                            {/* <svg className="exercise-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
                                     stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
+                            </svg> */}
                         </div>
-                        <p>No hay ejercicios registrados aún.</p>
-                        <span className="empty-subtitle">Los ejercicios que registres aparecerán aquí.</span>
+                        {/* <p>No hay ejercicios registrados aún.</p> */}
+                        <span className="empty-subtitle">Your workouts will appear here.</span>
                     </motion.div>
                 ) : (
                     exercisesData.map((item, exerciseIndex) => {
@@ -132,7 +134,7 @@ const ExerciseItem = ({ exercisesData }) => {
                                     <div className="exercise-info">
                                         <h3 className="exercise-name">{item.name}</h3>
                                         <span className="exercise-count">
-                                            {groupedData.length} {groupedData.length === 1 ? 'sesión' : 'sesiones'} con un total de {item.data.length} {item.data.length === 1 ? 'serie' : 'series'}
+                                            {groupedData.length} {groupedData.length === 1 ? 'session' : 'sessions'} with a {item.data.length} total {item.data.length === 1 ? 'set' : 'sets'}
                                         </span>
                                     </div>
                                 </div>
@@ -140,10 +142,10 @@ const ExerciseItem = ({ exercisesData }) => {
                                 {/* Tabla de datos agrupados por fecha */}
                                 <div className="exercise-table">
                                     <div className="table-header">
-                                        <span>Fecha</span>
-                                        <span>Series</span>
-                                        <span>Peso promedio</span>
-                                        <span>Reps promedio</span>
+                                        <span>Date</span>
+                                        <span>Sets</span>
+                                        <span>Avg weight</span>
+                                        <span>Avg reps</span>
                                         <span>RPE / RIR</span>
                                     </div>
                                     <div className="table-body">
@@ -155,7 +157,7 @@ const ExerciseItem = ({ exercisesData }) => {
                                                 >
                                                     <span>{formatDate(dateGroup.date)}</span>
                                                     <span>{dateGroup.entries.length}</span>
-                                                    <span>{calculateAverage(dateGroup.entries, 'weight')} kg</span>
+                                                    <span>{calculateAverage(dateGroup.entries, 'weight')} lbs</span>
                                                     <span>{calculateAverage(dateGroup.entries, 'reps')}</span>
                                                     <span>{dateGroup.entries[0].intensityMeasure || '-'}</span>
                                                 </div>
@@ -171,13 +173,13 @@ const ExerciseItem = ({ exercisesData }) => {
                                                             transition={{ duration: 0.3 }}
                                                         >
                                                             <div className="series-details-header">
-                                                                <span>Serie</span>
-                                                                <span>Peso (kg)</span>
-                                                                <span>Repeticiones</span>
+                                                                <span>Set</span>
+                                                                <span>Weight (lb)</span>
+                                                                <span>Reps</span>
                                                             </div>
                                                             {dateGroup.entries.map((entry, entryIndex) => (
                                                                 <div key={entryIndex} className="series-detail-row">
-                                                                    <span>Serie {entryIndex + 1}</span>
+                                                                    <span>Set {entryIndex + 1}</span>
                                                                     <span>{entry.weight || '-'}</span>
                                                                     <span>{entry.reps || '-'}</span>
                                                                 </div>

@@ -63,7 +63,7 @@ const ExerciseItem = ({ exercisesData }) => {
 
     // Calcular el promedio de un valor numérico en un array de objetos
     const calculateAverage = (array, property) => {
-        if (!array || array.length === 0) return 0;
+        if (!array || array.length === 0) { return 0; }
         const sum = array.reduce((acc, item) => acc + parseFloat(item[property] || 0), 0);
         return (sum / array.length).toFixed(1);
     };

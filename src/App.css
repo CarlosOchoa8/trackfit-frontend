@@ -40,3 +40,9 @@
 .read-the-docs {
   color: #888;
 }
+
+.app-body {
+  position: relative;
+  margin-top: 95px;
+  min-height: calc(100vh - 95px);
+}

@@ -60,10 +60,10 @@ const PerformanceResults = ({ data }) => {
             <div className="results-header">
                 <h3 className="results-main-title">
                     <IoTrendingUpOutline className="header-icon" />
-                    Análisis de Rendimiento
+                    Performance Analysis
                 </h3>
                 <p className="results-subtitle">
-                    Métricas detalladas de tu entrenamiento
+                    Detailed workout metrics
                 </p>
             </div>
 
@@ -74,14 +74,14 @@ const PerformanceResults = ({ data }) => {
                     onClick={() => setActiveTab('volume')}
                 >
                     <IoBarChartOutline className="tab-icon" />
-                    Volumen
+                    Volume
                 </button>
                 <button
                     className={`tab-button ${activeTab === '1rm' ? 'active' : ''}`}
                     onClick={() => setActiveTab('1rm')}
                 >
                     <IoFitnessOutline className="tab-icon" />
-                    1RM Estimado
+                    1RM Estimated
                 </button>
             </div>
 
@@ -100,7 +100,7 @@ const PerformanceResults = ({ data }) => {
                         <div className="metrics-section">
                             <h4 className="section-title">
                                 <IoFitnessOutline className="section-icon" />
-                                Volumen Total por Ejercicio
+                                Total Volume by Exercise
                             </h4>
                             <div className="metrics-grid">
                                 {Object.entries(volumeData.total_volume || {}).map(([exercise, volume]) => (
@@ -124,7 +124,7 @@ const PerformanceResults = ({ data }) => {
                         <div className="metrics-section">
                             <h4 className="section-title">
                                 <IoCalendarOutline className="section-icon" />
-                                Volumen por Sesión
+                                Volume per session
                             </h4>
                             <div className="session-list">
                                 {Object.entries(volumeData.total_session_volume || {})
@@ -161,7 +161,7 @@ const PerformanceResults = ({ data }) => {
                         <div className="metrics-section">
                             <h4 className="section-title">
                                 <IoFitnessOutline className="section-icon" />
-                                1RM Estimado por Ejercicio
+                                1RM Estimated per Exercise
                             </h4>
                             <div className="rm-cards-grid">
                                 {Object.entries(oneRMData).map(([exercise, formulas]) => (
@@ -172,15 +172,15 @@ const PerformanceResults = ({ data }) => {
                                         <div className="rm-formulas-container">
                                             <div className="rm-formula-row main-formula">
                                                 <span className="rm-formula-label">Epley</span>
-                                                <span className="rm-formula-result">{formatNumber(formulas.epley)} kg</span>
+                                                <span className="rm-formula-result">{formatNumber(formulas.epley)} lbs</span>
                                             </div>
                                             <div className="rm-formula-row">
                                                 <span className="rm-formula-label">Brzycki</span>
-                                                <span className="rm-formula-result">{formatNumber(formulas.brzycki)} kg</span>
+                                                <span className="rm-formula-result">{formatNumber(formulas.brzycki)} lbs</span>
                                             </div>
                                             <div className="rm-formula-row">
                                                 <span className="rm-formula-label">Lombardi</span>
-                                                <span className="rm-formula-result">{formatNumber(formulas.lombardi)} kg</span>
+                                                <span className="rm-formula-result">{formatNumber(formulas.lombardi)} lbs</span>
                                             </div>
                                         </div>
                                     </div>

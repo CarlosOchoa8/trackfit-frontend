@@ -279,8 +279,9 @@ const ExerciseForm = ({ handleSubmit }) => {
             transition={{ duration: 0.4 }}
         >
             <div className="form-header">
-                <h1 className="form-title">Registrar Ejercicio</h1>
-                <p className="form-subtitle">Ingresa los detalles de tu entrenamiento</p>
+                <h1 className="form-title">Register your workout</h1>
+                {/* <p className="form-subtitle">Ingresa los detalles de tu entrenamiento</p> */}
+                {/* <p className="form-subtitle">Register your workout</p> */}
             </div>
 
             <form
@@ -309,7 +310,7 @@ const ExerciseForm = ({ handleSubmit }) => {
                                 <svg className="exercise-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M15 8V16M18 12H6M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
-                                <span>Seleccionar ejercicio</span>
+                                <span>Select exercise</span>
                             </div>
                         )}
                     </div>
@@ -331,7 +332,7 @@ const ExerciseForm = ({ handleSubmit }) => {
                                     htmlFor="exercise-name"
                                     className={form.name || activeField === "name" ? "active" : ""}
                                 >
-                                    Nombre del ejercicio
+                                    Exercise name
                                 </label>
                                 <div className={`input-underline ${activeField === "name" ? "active" : ""}`}></div>
                             </div>
@@ -351,7 +352,7 @@ const ExerciseForm = ({ handleSubmit }) => {
                                     htmlFor="exercise-date"
                                     className="active"
                                 >
-                                    Fecha
+                                    Date
                                 </label>
                                 <div className={`input-underline ${activeField === "date" ? "active" : ""}`}></div>
                             </div>
@@ -375,7 +376,7 @@ const ExerciseForm = ({ handleSubmit }) => {
                                     htmlFor="exercise-series-count"
                                     className="active"
                                 >
-                                    Número de series
+                                    Sets
                                 </label>
                                 <div className={`input-underline ${activeField === "seriesCount" ? "active" : ""}`}></div>
                             </div>
@@ -383,7 +384,8 @@ const ExerciseForm = ({ handleSubmit }) => {
 
                         {/* Sección de series dinámicas */}
                         <div className="series-container">
-                            <h3 className="series-title">Detalles de cada serie</h3>
+                            {/* <h3 className="series-title">Detalles de cada serie</h3> */}
+                            <h3 className="series-title">Sets tracking</h3>
 
                             <AnimatePresence>
                                 {form.seriesData.map((seriesItem, index) => (
@@ -396,7 +398,7 @@ const ExerciseForm = ({ handleSubmit }) => {
                                         transition={{ duration: 0.3 }}
                                     >
                                         <div className="series-header">
-                                            <h4 className="series-number">Serie {index + 1}</h4>
+                                            <h4 className="series-number">Set {index + 1}</h4>
                                         </div>
 
                                         <div className="input-group">
@@ -488,7 +490,8 @@ const ExerciseForm = ({ handleSubmit }) => {
                                     <span>Procesando...</span>
                                 </>
                             ) : (
-                                "Agregar ejercicio"
+                                // "Agregar ejercicio"
+                                "Add"
                             )}
                         </button>
                     </div>
@@ -513,7 +516,8 @@ const ExerciseForm = ({ handleSubmit }) => {
                             onClick={(e) => e.stopPropagation()}
                         >
                             <div className="picker-header">
-                                <h3>Selecciona un ejercicio</h3>
+                                {/* <h3>Selecciona un ejercicio</h3> */}
+                                <h3>Select an exercise</h3>
                                 <button
                                     type="button"
                                     className="close-picker"
@@ -543,7 +547,7 @@ const ExerciseForm = ({ handleSubmit }) => {
                                     disabled={offset === 0}
                                     className="pagination-button"
                                 >
-                                    Anterior
+                                    Previous
                                 </button>
                                 <button
                                     type="button"
@@ -554,10 +558,10 @@ const ExerciseForm = ({ handleSubmit }) => {
                                     {loading ? (
                                         <>
                                             <div className="loading-spinner small"></div>
-                                            <span>Cargando...</span>
+                                            <span>Loading...</span>
                                         </>
                                     ) : (
-                                        "Siguiente"
+                                        "Next"
                                     )}
                                 </button>
                             </div>

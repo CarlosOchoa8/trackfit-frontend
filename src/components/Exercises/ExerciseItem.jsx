@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import "./ExerciseItem.css";
 import { GiWeightLiftingUp } from "react-icons/gi";
+import { IoMdFitness } from "react-icons/io";
 
 
 const ExerciseItem = ({ exercisesData }) => {
@@ -130,7 +131,8 @@ const ExerciseItem = ({ exercisesData }) => {
                                 transition={{ duration: 0.4, delay: exerciseIndex * 0.1 }}
                             >
                                 <div className="exercise-header">
-                                    <div className="exercise-image-placeholder" />
+                                    {/* <div className="exercise-image-placeholder" /> */}
+                                    <IoMdFitness className="exercise-image-placeholder" color="#374151" />
                                     <div className="exercise-info">
                                         <h3 className="exercise-name">{item.name}</h3>
                                         <span className="exercise-count">

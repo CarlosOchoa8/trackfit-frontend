@@ -186,7 +186,7 @@ const PerformanceCalculator = ({ exerciseData, handlePerformanceResults }) => {
                     <IoAnalyticsOutline className={isLoading ? "pulse-icon" : ""} />
                 </motion.span>
                 <span className="button-text">
-                    {isLoading ? "Calculando..." : "Calcular Rendimiento"}
+                    {isLoading ? "Calculating..." : "Calculate Performance"}
                 </span>
                 {isLoading && (
                     <motion.span

@@ -621,7 +621,7 @@ input[type="date"] {
     position: relative;
 }
 
-.intensity-help-badge {
+/* .intensity-help-badge {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
@@ -645,24 +645,24 @@ input[type="date"] {
     background: linear-gradient(135deg, #059669 0%, #047857 100%);
     transform: scale(1.1);
     box-shadow: 0 4px 8px rgba(5, 150, 105, 0.3);
-}
+} */
 
 /* Cuando el campo está activo, cambiar color del badge */
-.input-field:focus-within .intensity-help-badge {
-    background: linear-gradient(135deg, #059669 0%, #059669cc 10%);
+/* .input-field:focus-within .intensity-help-badge { */
+    /* background: linear-gradient(135deg, #059669 0%, #059669cc 10%); */
     /* border-color: #3b82f6; */
-}
+/* } */
 
-.input-field:focus-within .intensity-help-badge:hover {
+/* .input-field:focus-within .intensity-help-badge:hover {
     background: linear-gradient(135deg, #059669 0%, #047857 100%);
-}
+} */
 
 /* Animación sutil al aparecer */
-.intensity-help-badge {
+/* .intensity-help-badge {
     animation: badgeSlideIn 0.3s ease-out;
-}
+} */
 
-@keyframes badgeSlideIn {
+/* @keyframes badgeSlideIn {
     from {
         opacity: 0;
         transform: scale(0.8);
@@ -672,10 +672,10 @@ input[type="date"] {
         opacity: 1;
         transform: scale(1);
     }
-}
+} */
 
 /* Responsive */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .intensity-help-badge {
         width: 1.1rem;
         height: 1.1rem;
@@ -683,10 +683,10 @@ input[type="date"] {
         top: 0.65rem;
         right: 0.65rem;
     }
-}
+} */
 
 /* Asegurar que el badge no interfiera con el input */
-.intensity-field-container input {
+/* .intensity-field-container input {
     padding-right: 2.5rem;
 }
 
@@ -694,4 +694,97 @@ input[type="date"] {
     background: rgba(5, 150, 105, 0.9);
     transform: scale(1.15);
     box-shadow: 0 2px 8px rgba(5, 150, 105, 0.4);
+} */
+/* Estilos para el tooltip de intensidad */
+.intensity-help-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background-color: #059669;
+    color: white;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: help;
+    margin-left: 0.5rem;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.intensity-help-badge:hover {
+    background-color: #047857;
+    transform: scale(1.1);
+}
+
+/* Estilos personalizados para el tooltip */
+.intensity-help-badge[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #1a1a1a;
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    white-space: pre-line;
+    z-index: 1000;
+    width: 320px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid #059669;
+    font-weight: 400;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    pointer-events: none;
+    opacity: 0;
+    animation: tooltipFadeIn 0.2s ease-out forwards;
+}
+
+/* Flecha del tooltip */
+.intensity-help-badge[data-tooltip]:hover::before {
+    content: '';
+    position: absolute;
+    bottom: 115%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #059669;
+    z-index: 1001;
+    opacity: 0;
+    animation: tooltipFadeIn 0.2s ease-out forwards;
+}
+
+/* Animación de aparición */
+@keyframes tooltipFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .intensity-help-badge[title]:hover::after {
+        width: 280px;
+        font-size: 0.8rem;
+        padding: 0.875rem;
+    }
+}
+
+/* Alternativa: Tooltip más elegante con fondo blur */
+.intensity-help-badge.premium[data-tooltip]:hover::after {
+    background: rgba(26, 26, 26, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(5, 150, 105, 0.3);
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
 }

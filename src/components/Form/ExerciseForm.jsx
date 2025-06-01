@@ -414,7 +414,7 @@ const ExerciseForm = ({ handleSubmit }) => {
                                                     htmlFor={`weight-${index}`}
                                                     className={seriesItem.weight || activeField === `weight-${index}` ? "active" : ""}
                                                 >
-                                                    Peso (kg)
+                                                    Weight (lbs)
                                                 </label>
                                                 <div className={`input-underline ${activeField === `weight-${index}` ? "active" : ""}`}></div>
                                             </div>
@@ -433,7 +433,7 @@ const ExerciseForm = ({ handleSubmit }) => {
                                                     htmlFor={`reps-${index}`}
                                                     className={seriesItem.reps || activeField === `reps-${index}` ? "active" : ""}
                                                 >
-                                                    Repeticiones
+                                                    Reps
                                                 </label>
                                                 <div className={`input-underline ${activeField === `reps-${index}` ? "active" : ""}`}></div>
                                             </div>
@@ -464,14 +464,14 @@ const ExerciseForm = ({ handleSubmit }) => {
                                             </label>
                                             <div className={`input-underline ${activeField === `intensity-${index}` ? "active" : ""}`}></div>
 
+                                        </div>
                                             {/* Badge con ícono de ayuda */}
                                             <div
-                                                className="intensity-help-badge"
-                                                title={getIntensityTooltip(seriesItem.intensityMeasure)}
+                                                className="intensity-help-badge premium"
+                                                data-tooltip={getIntensityTooltip(seriesItem.intensityMeasure)}
                                             >
                                                 ?
                                             </div>
-                                        </div>
                                     </motion.div>
                                 ))}
                             </AnimatePresence>

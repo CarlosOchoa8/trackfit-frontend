@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import "./Header.css";
 import { motion } from "framer-motion";
-import { hamburgerAnimations, mobileMenuAnimations } from './animations';
+import { useState } from "react";
 import { IoIosFitness } from "react-icons/io";
+import fitTrackLogo from "../../../fitTrackLogo.svg";
+import { mobileMenuAnimations } from './animations';
+import "./Header.css";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,7 +16,9 @@ const Header = () => {
   return (
     <header className="header">
       <div className="logo">
-        <h1>Mi Logo</h1>
+        <img src={fitTrackLogo} className="logo" alt="Vite logo" />
+        {/* <img src={logo} className="logo" alt="Vite logo" /> */}
+        {/* <h1>Mi Logo</h1> */}
       </div>
       
       <nav className="desktop-menu">

@@ -466,3 +466,335 @@
         padding: 1.25rem;
     }
 }
+
+/* Estilos adicionales para Load Progress - Agregar al final de PerformanceResults.css */
+
+/* Effective Volume Styles */
+.effective-volume-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.effective-volume-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.2s ease;
+    animation: cardSlideIn 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.effective-volume-card:hover {
+    border-color: #059669;
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
+    transform: translateY(-2px);
+}
+
+.effective-volume-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin: 0 0 0.75rem 0;
+    text-transform: capitalize;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.effective-volume-sessions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.effective-volume-session {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background-color: #f8fafc;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.effective-volume-session:hover {
+    background-color: #f1f5f9;
+}
+
+.session-date-small {
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.effective-percentage {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #059669;
+    background-color: #ecfdf5;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+/* Progress Summary Styles */
+.progress-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.progress-summary-card {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    color: white;
+    border-radius: 8px;
+    padding: 1.25rem;
+    text-align: center;
+    animation: cardSlideIn 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: transform 0.2s ease;
+}
+
+.progress-summary-card:hover {
+    transform: translateY(-3px) scale(1.02);
+}
+
+.progress-summary-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.progress-summary-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.summary-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+}
+
+.summary-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* Progress Cards Grid */
+.progress-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+.progress-exercise-card {
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    animation: progressCardSlideIn 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+}
+
+.progress-exercise-card:hover {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Animación específica para tarjetas de progreso */
+@keyframes progressCardSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Retraso escalonado para tarjetas de progreso */
+.progress-exercise-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.progress-exercise-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.progress-exercise-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.progress-exercise-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.progress-exercise-card:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.progress-exercise-card:nth-child(6) {
+    animation-delay: 0.6s;
+}
+
+.progress-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #f3f4f6;
+}
+
+.progress-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+    text-transform: capitalize;
+}
+
+.progress-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.progress-icon {
+    font-size: 1.1rem;
+}
+
+.progress-text {
+    white-space: nowrap;
+}
+
+.progress-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.progress-period {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background-color: #f8fafc;
+    border-radius: 6px;
+    border-left: 3px solid #059669;
+}
+
+.period-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.period-dates {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.progress-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.progress-metric {
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem;
+    background-color: #f9fafb;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+}
+
+.progress-metric:hover {
+    background-color: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+.progress-metric.highlight {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border-color: #f59e0b;
+}
+
+.progress-metric.highlight:hover {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+}
+
+.progress-metric .metric-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.progress-metric .metric-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1;
+}
+
+/* Responsive adjustments for progress section */
+@media (max-width: 768px) {
+    .progress-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .effective-volume-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-card-header {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: flex-start;
+    }
+
+    .progress-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-period {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .progress-exercise-card {
+        padding: 1.25rem;
+    }
+
+    .effective-volume-session {
+        padding: 0.5rem;
+    }
+
+    .progress-summary-card {
+        padding: 1rem;
+    }
+
+    .summary-value {
+        font-size: 1.5rem;
+    }
+}

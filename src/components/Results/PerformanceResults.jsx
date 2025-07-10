@@ -81,7 +81,7 @@ const PerformanceResults = ({ data }) => {
                 color: '#6b7280',
                 bgColor: '#f9fafb',
                 borderColor: '#d1d5db',
-                text: 'Sin cambios'
+                text: 'No changes'
             };
         }
     };
@@ -401,7 +401,7 @@ const PerformanceResults = ({ data }) => {
 
                                             <div className="progress-details">
                                                 <div className="progress-period">
-                                                    <span className="period-label">Período:</span>
+                                                    <span className="period-label">Period:</span>
                                                     <span className="period-dates">
                                                         {formatDate(data.start_date, 'compact')} - {formatDate(data.end_date, 'compact')}
                                                     </span>
@@ -409,19 +409,19 @@ const PerformanceResults = ({ data }) => {
 
                                                 <div className="progress-metrics">
                                                     <div className="progress-metric">
-                                                        <span className="metric-label">Peso inicial:</span>
+                                                        <span className="metric-label">Initial weight:</span>
                                                         <span className="metric-value">
                                                             {formatNumber(progress.start_weight)} kg
                                                         </span>
                                                     </div>
                                                     <div className="progress-metric">
-                                                        <span className="metric-label">Peso final:</span>
+                                                        <span className="metric-label">Final weight:</span>
                                                         <span className="metric-value">
                                                             {formatNumber(progress.end_weight)} kg
                                                         </span>
                                                     </div>
                                                     <div className="progress-metric highlight">
-                                                        <span className="metric-label">Diferencia:</span>
+                                                        <span className="metric-label">Difference:</span>
                                                         <span
                                                             className="metric-value"
                                                             style={{ color: indicator.color }}
@@ -430,7 +430,7 @@ const PerformanceResults = ({ data }) => {
                                                         </span>
                                                     </div>
                                                     <div className="progress-metric highlight">
-                                                        <span className="metric-label">Progreso:</span>
+                                                        <span className="metric-label">Progress:</span>
                                                         <span
                                                             className="metric-value"
                                                             style={{ color: indicator.color }}

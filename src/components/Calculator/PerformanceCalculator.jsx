@@ -1,15 +1,14 @@
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { IoAnalyticsOutline } from "react-icons/io5";
-import { motion } from "framer-motion";
+import { httpRequest } from "../../helpers/httpRequest";
 import {
+    buttonTapAnimation,
     buttonVariants,
     iconAnimation,
-    buttonTapAnimation,
-    spinnerAnimation,
-    resultsVariants
+    spinnerAnimation
 } from "./animations";
 import "./PerformanceCalculator.css";
-import { httpRequest } from "../../helpers/httpRequest";
 
 
 const PerformanceCalculator = ({ exerciseData, handlePerformanceResults }) => {

@@ -47,7 +47,7 @@ const PerformanceCalculator = ({ exerciseData, handlePerformanceResults }) => {
             };
 
             request.post(
-                "http://localhost:80/trackfit_api/performance/calculate",
+                import.meta.env.VITE_EXERCISE_BACKEND_API,
                 rapidApiOptions
             )
                 .then(data => {

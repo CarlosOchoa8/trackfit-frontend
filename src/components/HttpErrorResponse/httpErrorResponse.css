@@ -1,0 +1,329 @@
+/* HttpErrorResponse.css - Coherente con ExerciseItem y PerformanceResults */
+
+.http-error-response {
+    width: 100%;
+    max-width: 600px;
+    margin: 1.5rem auto;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    animation: errorSlideIn 0.6s ease-out forwards;
+}
+
+/* Tipos de error con colores específicos */
+.http-error-response.server {
+    border-left: 4px solid #dc2626;
+}
+
+.http-error-response.client {
+    border-left: 4px solid #f59e0b;
+}
+
+.http-error-response.unknown {
+    border-left: 4px solid #6b7280;
+}
+
+/* Header del error - Similar al exercise-header */
+.error-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.error-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.error-icon.server {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    color: white;
+}
+
+.error-icon.client {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+}
+
+.error-icon.unknown {
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+    color: white;
+}
+
+.error-info {
+    flex: 1;
+}
+
+.error-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 0.25rem 0;
+}
+
+.error-subtitle {
+    font-size: 0.95rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+/* Contenido del error */
+.error-content {
+    padding: 1.5rem;
+}
+
+.error-message {
+    margin-bottom: 1.5rem;
+}
+
+.error-message p {
+    font-size: 1rem;
+    color: #374151;
+    line-height: 1.6;
+    margin: 0;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+/* Detalles técnicos expandibles */
+.error-details {
+    margin-bottom: 1.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.error-details summary {
+    padding: 0.75rem 1rem;
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    cursor: pointer;
+    font-weight: 500;
+    color: #374151;
+    user-select: none;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.error-details summary:hover {
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    color: #111827;
+}
+
+.error-details[open] summary {
+    border-bottom: 1px solid #d1d5db;
+}
+
+.error-technical {
+    padding: 1rem;
+    background-color: #fafbfc;
+}
+
+.tech-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.tech-row:last-child {
+    border-bottom: none;
+}
+
+.tech-label {
+    font-weight: 500;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.tech-value {
+    font-weight: 600;
+    color: #111827;
+    font-size: 0.9rem;
+    text-align: right;
+    max-width: 60%;
+    word-break: break-word;
+}
+
+/* Botón de reintentar - Similar a otros botones del sistema */
+.retry-button {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.retry-button:hover {
+    background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+    transform: translateY(-1px);
+}
+
+.retry-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
+}
+
+.retry-button:focus {
+    outline: 2px solid #059669;
+    outline-offset: 2px;
+}
+
+/* Animación de entrada */
+@keyframes errorSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Estados especiales para diferentes tipos de error */
+.http-error-response.server .error-message p {
+    border-left: 3px solid #dc2626;
+}
+
+.http-error-response.client .error-message p {
+    border-left: 3px solid #f59e0b;
+}
+
+.http-error-response.unknown .error-message p {
+    border-left: 3px solid #6b7280;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .http-error-response {
+        margin: 1rem;
+        border-radius: 8px;
+    }
+
+    .error-header {
+        padding: 1.25rem;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.75rem;
+    }
+
+    .error-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .error-content {
+        padding: 1.25rem;
+    }
+
+    .tech-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+
+    .tech-value {
+        text-align: left;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 640px) {
+    .error-header {
+        padding: 1rem;
+    }
+
+    .error-content {
+        padding: 1rem;
+    }
+
+    .error-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .error-title {
+        font-size: 1.1rem;
+    }
+
+    .error-message p {
+        font-size: 0.95rem;
+        padding: 0.875rem;
+    }
+
+    .retry-button {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Accesibilidad mejorada */
+.error-details summary:focus {
+    outline: 2px solid #059669;
+    outline-offset: 2px;
+}
+
+.retry-button:focus-visible {
+    outline: 2px solid #059669;
+    outline-offset: 2px;
+}
+
+/* Estados de carga para el botón */
+.retry-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+}
+
+.retry-button:disabled:hover {
+    transform: none;
+    box-shadow: none;
+    background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+}
+
+/* Mejorar la experiencia táctil en móviles */
+@media (hover: none) and (pointer: coarse) {
+    .retry-button:hover {
+        transform: initial;
+        box-shadow: initial;
+    }
+
+    .retry-button:active {
+        background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+        transform: scale(0.98);
+    }
+
+    .error-details summary:hover {
+        background: initial;
+    }
+
+    .error-details summary:active {
+        background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    }
+}

@@ -4,12 +4,16 @@ import ExerciseItem from "./Exercises/ExerciseItem";
 import "./ExercisesApp.css";
 import ExerciseForm from "./Form/ExerciseForm";
 import PerformanceResults from "./Results/PerformanceResults";
+import HttpErrorResponse from "./HttpErrorResponse/httpErrorResponse";
+
 
 const initData = [];
 
 const ExerciseApp = () => {
     const [exerciseData, setExerciseData] = useState(initData);
     const [calcResponse, setCalcResponse] = useState(null);
+    const [hasError, setHasError] = useState(false);
+    const [errorResponse, setErrorResponse] = useState(null); // Guardar toda la respuesta de error
 
     const handleFormSubmit = (formData) => {
         let updatedData;
@@ -64,14 +68,47 @@ const ExerciseApp = () => {
 
             return updatedData;
         });
-
     };
 
     const handlePerformanceResults = (response) => {
-        if (response.data) {
-            setCalcResponse(response)
+        // Reset de estados previos
+        setHasError(false);
+        setErrorResponse(null);
+
+        if (response?.data) {
+            setCalcResponse(response);
+        } else if (response?.err) {
+            setHasError(true);
+            setErrorResponse(response); // Guardar toda la respuesta de error
+            setCalcResponse(null); // Limpiar respuesta previa exitosa
         }
-    }
+    };
+
+    // Función opcional para manejar el retry
+    const handleRetry = () => {
+        console.log("Reintentando operación...");
+        setHasError(false);
+        setErrorResponse(null);
+        // Aquí puedes volver a llamar a la función que falló
+        // Por ejemplo, volver a ejecutar el cálculo de performance
+    };
+
+    const renderPerformanceSection = () => {
+        if (hasError && errorResponse) {
+            return (
+                <HttpErrorResponse
+                    errorData={errorResponse} // Pasar todo el objeto de error
+                    onRetry={handleRetry} // Opcional: función para reintentar
+                />
+            );
+        }
+
+        if (calcResponse) {
+            return <PerformanceResults data={calcResponse} />;
+        }
+
+        return null;
+    };
 
     return (
         <>
@@ -81,7 +118,7 @@ const ExerciseApp = () => {
                 {exerciseData.length > 0 && (
                     <PerformanceCalculator exerciseData={exerciseData} handlePerformanceResults={handlePerformanceResults}/>
                 )}
-                {calcResponse && (<PerformanceResults data={calcResponse}/>)}
+                {renderPerformanceSection()}
             </div>
         </>
     );

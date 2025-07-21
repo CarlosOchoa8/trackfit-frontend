@@ -20,8 +20,7 @@ const initForm = {
 
 const rapidApiOptions = {
     headers: {
-        "x-rapidapi-key": import.meta.env.VITE_EXERCISE_API_KEY,
-        "x-rapidapi-host": import.meta.env.VITE_EXERCISE_API_HOST,
+        "Content-Type": "application/json"
     },
 };
 
@@ -201,7 +200,7 @@ const ExerciseForm = ({ handleSubmit }) => {
         const request = httpRequest();
 
         request
-            .get(`https://exercisedb.p.rapidapi.com/exercises?limit=10&offset=${newOffset}`, rapidApiOptions)
+            .get(`${import.meta.env.VITE_EXERCISE_BACKEND_API}/get_exercises?limit=10&offset=${newOffset}`, rapidApiOptions)
             .then((data) => {
                 setExercisesList(data);
                 setOffset(newOffset);

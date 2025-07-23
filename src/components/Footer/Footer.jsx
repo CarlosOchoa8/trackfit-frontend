@@ -74,7 +74,7 @@ const Footer = () => {
                         >
                             <IoIosFitness size={24} color="#059669" />
                         </motion.div>
-                        <span>Contacto</span>
+                        <span>Contact</span>
                     </div>
 
                     {/* TODO hacer esto */}

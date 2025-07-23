@@ -18,7 +18,6 @@ const PerformanceCalculator = ({ exerciseData, handlePerformanceResults }) => {
 
     const handleRequest = (e) => {
         e.preventDefault()
-        console.log("HANDLE REQUEST");
         setIsLoading(true);
 
         // Simulación de carga
@@ -37,7 +36,6 @@ const PerformanceCalculator = ({ exerciseData, handlePerformanceResults }) => {
                     data: item.data
                 }))
             };
-            console.log(body)
             const request = httpRequest();
             const rapidApiOptions = {
                 headers: {
@@ -45,9 +43,8 @@ const PerformanceCalculator = ({ exerciseData, handlePerformanceResults }) => {
                 },
                 body
             };
-
             request.post(
-                import.meta.env.VITE_EXERCISE_BACKEND_API,
+                `${import.meta.env.VITE_EXERCISE_BACKEND_API}/calculate`,
                 rapidApiOptions
             )
                 .then(data => {

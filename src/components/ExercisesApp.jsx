@@ -5,9 +5,12 @@ import "./ExercisesApp.css";
 import ExerciseForm from "./Form/ExerciseForm";
 import PerformanceResults from "./Results/PerformanceResults";
 import HttpErrorResponse from "./HttpErrorResponse/httpErrorResponse";
+import renderService from "../helpers/back_service";
 
 
 const initData = [];
+renderService();
+
 
 const ExerciseApp = () => {
     const [exerciseData, setExerciseData] = useState(initData);

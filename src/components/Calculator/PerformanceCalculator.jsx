@@ -44,7 +44,7 @@ const PerformanceCalculator = ({ exerciseData, handlePerformanceResults }) => {
                 body
             };
             request.post(
-                `${import.meta.env.VITE_EXERCISE_BACKEND_API}/calculate`,
+                `${import.meta.env.VITE_EXERCISE_BACKEND_API}performance/calculate`,
                 rapidApiOptions
             )
                 .then(data => {

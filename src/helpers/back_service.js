@@ -1,6 +1,6 @@
 const renderService = async (url = import.meta.env.VITE_EXERCISE_BACKEND_API, timeout = 45000) => {
-    console.log("Waking up back service.")
-    console.log("URL =>", url)
+    // console.log("Waking up back service.")
+    // console.log("URL =>", url)
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeout);
 
@@ -15,7 +15,7 @@ const renderService = async (url = import.meta.env.VITE_EXERCISE_BACKEND_API, ti
         });
         const end = performance.now();
         const message = {"Ping": `${(end - init).toFixed(2)} ms`};
-        console.log(message)
+        // console.log(message)
         return message
     } catch(err) {
         clearTimeout(timeoutId);

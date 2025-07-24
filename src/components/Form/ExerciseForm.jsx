@@ -200,7 +200,7 @@ const ExerciseForm = ({ handleSubmit }) => {
         const request = httpRequest();
 
         request
-            .get(`${import.meta.env.VITE_EXERCISE_BACKEND_API}/get_exercises?limit=10&offset=${newOffset}`, rapidApiOptions)
+            .get(`${import.meta.env.VITE_EXERCISE_BACKEND_API}performance/get_exercises?limit=10&offset=${newOffset}`, rapidApiOptions)
             .then((data) => {
                 setExercisesList(data);
                 setOffset(newOffset);

@@ -85,7 +85,7 @@ const PerformanceResults = ({ data }) => {
                     className="tab-content"
                 >
                     {activeTab === 'volume' && (
-                        <VolumeResults data={performanceData.volumeData} />
+                        <VolumeResults volumeData={performanceData.volumeData} />
                     )}
                     {activeTab === 'rm' && (
                         <RmResults data={performanceData.oneRMData} />

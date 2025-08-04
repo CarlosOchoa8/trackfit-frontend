@@ -1,14 +1,15 @@
-import React from "react";
 import { motion } from "framer-motion";
 import {
-    IoFitnessOutline,
     IoCalendarOutline,
+    IoFitnessOutline,
     IoStatsChartOutline,
 } from "react-icons/io5";
+import { itemVariants } from "./animations";
 import "./volumeResults.css";
 
-const VolumeResults = ({ data }) => {
-    // Funciones utilitarias (mover desde el componente padre)
+
+const VolumeResults = ({ volumeData }) => {
+
     const formatNumber = (num, options = {}) => {
         const {
             maximumFractionDigits = 1,
@@ -33,14 +34,6 @@ const VolumeResults = ({ data }) => {
         return date.toLocaleDateString('es-ES', options[format]);
     };
 
-    const itemVariants = {
-        hidden: { opacity: 0, x: -20 },
-        visible: {
-            opacity: 1,
-            x: 0,
-            transition: { duration: 0.3 }
-        }
-    };
 
     return (
         <div className="volume-results">
@@ -51,7 +44,7 @@ const VolumeResults = ({ data }) => {
                     Total Volume by Exercise
                 </h4>
                 <div className="metrics-grid">
-                    {Object.entries(data.total_volume || {}).map(([exercise, volume]) => (
+                    {Object.entries(volumeData.total_volume || {}).map(([exercise, volume]) => (
                         <motion.div
                             key={exercise}
                             className="metric-card"
@@ -75,7 +68,7 @@ const VolumeResults = ({ data }) => {
                     Volume per session
                 </h4>
                 <div className="session-list">
-                    {Object.entries(data.total_session_volume || {})
+                    {Object.entries(volumeData.total_session_volume || {})
                         .sort(([a], [b]) => new Date(b) - new Date(a))
                         .map(([date, volume]) => (
                             <motion.div
@@ -96,14 +89,14 @@ const VolumeResults = ({ data }) => {
             </div>
 
             {/* Volumen efectivo */}
-            {data.effective_volume && Object.keys(data.effective_volume).length > 0 && (
+            {volumeData.effective_volume && Object.keys(volumeData.effective_volume).length > 0 && (
                 <div className="metrics-section">
                     <h4 className="section-title">
                         <IoStatsChartOutline className="section-icon" />
                         Effective Volume
                     </h4>
                     <div className="effective-volume-grid">
-                        {Object.entries(data.effective_volume).map(([exercise, sessions]) => (
+                        {Object.entries(volumeData.effective_volume).map(([exercise, sessions]) => (
                             <motion.div
                                 key={exercise}
                                 className="effective-volume-card"

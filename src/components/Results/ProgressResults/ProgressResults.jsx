@@ -9,7 +9,7 @@ import {
 } from "react-icons/io5";
 import "./progressResults.css";
 
-const ProgressResults = ({ data }) => {
+const ProgressResults = ({ progressData }) => {
     // Funciones utilitarias
     const formatNumber = (num, options = {}) => {
         const {
@@ -66,11 +66,11 @@ const ProgressResults = ({ data }) => {
 
     // Calcular estadísticas de progreso
     const progressStats = useMemo(() => {
-        const exercises = Object.keys(data);
+        const exercises = Object.keys(progressData);
         if (exercises.length === 0) return null;
 
         const progressions = exercises.map(exercise => {
-            const progress = data[exercise]?.progress;
+            const progress = progressData[exercise]?.progress;
             return {
                 exercise,
                 weightDiff: progress?.weight_diff || 0,
@@ -88,7 +88,7 @@ const ProgressResults = ({ data }) => {
             totalExercises: exercises.length,
             progressions
         };
-    }, [data]);
+    }, [progressData]);
 
     const itemVariants = {
         hidden: { opacity: 0, x: -20 },
@@ -132,7 +132,7 @@ const ProgressResults = ({ data }) => {
                     Load Progress by Exercise
                 </h4>
                 <div className="progress-cards-grid">
-                    {Object.entries(data).map(([exercise, exerciseData]) => {
+                    {Object.entries(progressData).map(([exercise, exerciseData]) => {
                         const { progress } = exerciseData;
                         const indicator = getProgressIndicator(
                             progress.weight_diff,

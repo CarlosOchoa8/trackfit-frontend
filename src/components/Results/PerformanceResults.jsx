@@ -91,7 +91,7 @@ const PerformanceResults = ({ data }) => {
                         <RmResults rmData={performanceData.oneRMData} />
                     )}
                     {activeTab === 'progress' && (
-                        <ProgressResults data={performanceData.loadProgressData} />
+                        <ProgressResults progressData={performanceData.loadProgressData} />
                     )}
                 </motion.div>
             </AnimatePresence>

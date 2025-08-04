@@ -1,0 +1,800 @@
+/* PerformanceResults.css Completo */
+
+.performance-results {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+/* Header */
+.results-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #f1f1f1;
+    background: linear-gradient(135deg,
+            #f8fafc 0%,
+            #f1f5f9 100%);
+}
+
+.results-main-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color:
+        #111827;
+    margin: 0 0 0.5rem 0;
+}
+
+.header-icon {
+    color:
+        #059669;
+    font-size: 1.5rem;
+}
+
+.results-subtitle {
+    color:
+        #6b7280;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* Tabs */
+.results-tabs {
+    display: flex;
+    background-color:
+        #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color:
+        #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.tab-button:hover {
+    color:
+        #059669;
+    background-color: rgba(59, 130, 246, 0.05);
+}
+
+.tab-button.active {
+    color:
+        #059669;
+    background-color: white;
+    border-bottom: 2px solid #059669;
+}
+
+.tab-icon {
+    font-size: 1.1rem;
+}
+
+/* Content */
+.tab-content {
+    padding: 1.5rem;
+}
+
+/* Sections */
+.metrics-section {
+    margin-bottom: 2rem;
+}
+
+.metrics-section:last-child {
+    margin-bottom: 0;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color:
+        #374151;
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.section-icon {
+    color:
+        #6b7280;
+    font-size: 1.2rem;
+}
+
+/* Metrics Grid */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.metric-card {
+    background: linear-gradient(135deg,
+            #ffffff 0%,
+            #f8fafc 100%);
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.25rem;
+    transition: all 0.2s ease;
+    cursor: default;
+    /* Animación automática al cargar */
+    animation: cardSlideIn 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.metric-card:hover {
+    border-color:
+        #059669;
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.12);
+    transform: translateY(-3px);
+}
+
+/* Animación de entrada automática */
+@keyframes cardSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Retraso escalonado para cada tarjeta */
+.metric-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.metric-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.metric-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.metric-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.metric-card:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.metric-card:nth-child(6) {
+    animation-delay: 0.6s;
+}
+
+.metric-header {
+    margin-bottom: 0.75rem;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color:
+        #6b7280;
+    text-transform: capitalize;
+}
+
+.metric-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color:
+        #111827;
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+}
+
+.metric-unit {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color:
+        #6b7280;
+}
+
+/* Session List */
+.session-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.session-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: linear-gradient(135deg,
+            #f8fafc 0%,
+            #f1f5f9 100%);
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    /* Animación automática al cargar */
+    animation: sessionSlideIn 0.5s ease-out forwards;
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.session-item:hover {
+    border-color:
+        #059669;
+    background: linear-gradient(135deg,
+            #f0f9ff 0%,
+            #e0f2fe 100%);
+    transform: translateX(3px);
+}
+
+/* Animación de entrada automática para sesiones */
+@keyframes sessionSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Retraso escalonado para cada sesión */
+.session-item:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.session-item:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.session-item:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.session-item:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.session-item:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.session-date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color:
+        #374151;
+}
+
+.date-icon {
+    color:
+        #6b7280;
+    font-size: 1rem;
+}
+
+.session-volume {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color:
+        #111827;
+}
+
+/* 1RM Cards Grid */
+.rm-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.rm-exercise-card {
+    background: linear-gradient(135deg,
+            #ffffff 0%,
+            #f8fafc 100%);
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.25rem;
+    transition: all 0.2s ease;
+    cursor: default;
+    /* Animación automática al cargar */
+    animation: rmCardSlideIn 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(15px) scale(0.98);
+}
+
+.rm-exercise-card:hover {
+    border-color:
+        #059669;
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.12);
+    transform: translateY(-2px) scale(1.01);
+}
+
+/* Animación de entrada para tarjetas 1RM */
+@keyframes rmCardSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(15px) scale(0.98);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Retraso escalonado para tarjetas 1RM */
+.rm-exercise-card:nth-child(1) {
+    animation-delay: 0.15s;
+}
+
+.rm-exercise-card:nth-child(2) {
+    animation-delay: 0.25s;
+}
+
+.rm-exercise-card:nth-child(3) {
+    animation-delay: 0.35s;
+}
+
+.rm-exercise-card:nth-child(4) {
+    animation-delay: 0.45s;
+}
+
+.rm-exercise-card:nth-child(5) {
+    animation-delay: 0.55s;
+}
+
+.rm-exercise-card:nth-child(6) {
+    animation-delay: 0.65s;
+}
+
+.rm-card-header {
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #f3f4f6;
+}
+
+.rm-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color:
+        #111827;
+    margin: 0;
+    text-transform: capitalize;
+}
+
+.rm-formulas-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.rm-formula-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background-color:
+        #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.rm-formula-row:hover {
+    background-color:
+        #f1f5f9;
+    border-color:
+        #cbd5e1;
+}
+
+.rm-formula-row.main-formula {
+    background: linear-gradient(135deg,
+            #059669 0%,
+            #52796f 100%);
+    border-color:
+        #059669;
+    color: white;
+}
+
+.rm-formula-row.main-formula:hover {
+    background: linear-gradient(135deg,
+            #2563eb 0%,
+            #1e40af 100%);
+}
+
+.rm-formula-label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: inherit;
+}
+
+.rm-formula-result {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: inherit;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .performance-results {
+        margin: 0 1rem;
+        border-radius: 8px;
+    }
+
+    .results-header {
+        padding: 1.25rem;
+    }
+
+    .tab-content {
+        padding: 1.25rem;
+    }
+
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rm-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rm-exercise-card {
+        padding: 1.25rem;
+    }
+}
+
+/* Estilos adicionales para Load Progress - Agregar al final de PerformanceResults.css */
+
+/* Effective Volume Styles */
+.effective-volume-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.effective-volume-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.2s ease;
+    animation: cardSlideIn 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.effective-volume-card:hover {
+    border-color: #059669;
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
+    transform: translateY(-2px);
+}
+
+.effective-volume-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin: 0 0 0.75rem 0;
+    text-transform: capitalize;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.effective-volume-sessions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.effective-volume-session {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background-color: #f8fafc;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.effective-volume-session:hover {
+    background-color: #f1f5f9;
+}
+
+.session-date-small {
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.effective-percentage {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #059669;
+    background-color: #ecfdf5;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+/* Progress Summary Styles */
+.progress-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.progress-summary-card {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    color: white;
+    border-radius: 8px;
+    padding: 1.25rem;
+    text-align: center;
+    animation: cardSlideIn 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: transform 0.2s ease;
+}
+
+.progress-summary-card:hover {
+    transform: translateY(-3px) scale(1.02);
+}
+
+.progress-summary-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.progress-summary-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.summary-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+}
+
+.summary-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* Progress Cards Grid */
+.progress-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+.progress-exercise-card {
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    animation: progressCardSlideIn 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+}
+
+.progress-exercise-card:hover {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Animación específica para tarjetas de progreso */
+@keyframes progressCardSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Retraso escalonado para tarjetas de progreso */
+.progress-exercise-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.progress-exercise-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.progress-exercise-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.progress-exercise-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.progress-exercise-card:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.progress-exercise-card:nth-child(6) {
+    animation-delay: 0.6s;
+}
+
+.progress-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #f3f4f6;
+}
+
+.progress-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+    text-transform: capitalize;
+}
+
+.progress-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.progress-icon {
+    font-size: 1.1rem;
+}
+
+.progress-text {
+    white-space: nowrap;
+}
+
+.progress-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.progress-period {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background-color: #f8fafc;
+    border-radius: 6px;
+    border-left: 3px solid #059669;
+}
+
+.period-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.period-dates {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.progress-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.progress-metric {
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem;
+    background-color: #f9fafb;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+}
+
+.progress-metric:hover {
+    background-color: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+.progress-metric.highlight {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border-color: #f59e0b;
+}
+
+.progress-metric.highlight:hover {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+}
+
+.progress-metric .metric-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.progress-metric .metric-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1;
+}
+
+/* Responsive adjustments for progress section */
+@media (max-width: 768px) {
+    .progress-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .effective-volume-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-card-header {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: flex-start;
+    }
+
+    .progress-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-period {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .progress-exercise-card {
+        padding: 1.25rem;
+    }
+
+    .effective-volume-session {
+        padding: 0.5rem;
+    }
+
+    .progress-summary-card {
+        padding: 1rem;
+    }
+
+    .summary-value {
+        font-size: 1.5rem;
+    }
+}

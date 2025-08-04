@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import { IoFitnessOutline } from "react-icons/io5";
 import "./rmResults.css";
+import { itemVariants } from "../VolumeResults/animations";
 
-const OneRMResults = ({ data }) => {
+
+const OneRMResults = ({ rmData }) => {
     const formatNumber = (num, options = {}) => {
         const {
             maximumFractionDigits = 1,
@@ -16,14 +18,6 @@ const OneRMResults = ({ data }) => {
         }).format(num);
     };
 
-    const itemVariants = {
-        hidden: { opacity: 0, x: -20 },
-        visible: {
-            opacity: 1,
-            x: 0,
-            transition: { duration: 0.3 }
-        }
-    };
 
     return (
         <div className="onerm-results">
@@ -33,7 +27,7 @@ const OneRMResults = ({ data }) => {
                     1RM Estimated per Exercise
                 </h4>
                 <div className="rm-cards-grid">
-                    {Object.entries(data).map(([exercise, formulas]) => (
+                    {Object.entries(rmData).map(([exercise, formulas]) => (
                         <motion.div
                             key={exercise}
                             className="rm-exercise-card"

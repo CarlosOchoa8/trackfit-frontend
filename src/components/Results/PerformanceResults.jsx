@@ -12,12 +12,11 @@ import "./PerformanceResults.css";
 import ProgressResults from "./ProgressResults/ProgressResults";
 import RmResults from "./RmResults/RmResults";
 import VolumeResults from "./VolumeResults/VolumeResults";
-
+import { containerVariants, tabContentVariants } from "./animations";
 
 const PerformanceResults = ({ data }) => {
     const [activeTab, setActiveTab] = useState('volume');
 
-    // Extraer datos de manera más robusta
     const performanceData = useMemo(() => {
         console.log(data)
         const apiData = data?.data || {};
@@ -29,24 +28,6 @@ const PerformanceResults = ({ data }) => {
         };
     }, [data]);
 
-    // Animaciones
-    const containerVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.4,
-                staggerChildren: 0.1
-            }
-        }
-    };
-
-    const tabContentVariants = {
-        hidden: { opacity: 0, x: 20 },
-        visible: { opacity: 1, x: 0 },
-        exit: { opacity: 0, x: -20 }
-    };
 
     return (
         <motion.div
@@ -62,7 +43,8 @@ const PerformanceResults = ({ data }) => {
                     Performance Analysis
                 </h3>
                 <p className="results-subtitle">
-                    Análisis completo de métricas de entrenamiento
+                    {/* Análisis completo de métricas de entrenamiento */}
+                    Workout metrics analysis.
                 </p>
             </div>
 

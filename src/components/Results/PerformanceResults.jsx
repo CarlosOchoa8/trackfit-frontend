@@ -9,6 +9,7 @@ import {
 import "./PerformanceResults.css";
 
 // Importar componentes separados
+import OverloadResults from "./OverloadResults/OverloadResults";
 import ProgressResults from "./ProgressResults/ProgressResults";
 import RmResults from "./RmResults/RmResults";
 import VolumeResults from "./VolumeResults/VolumeResults";
@@ -71,6 +72,13 @@ const PerformanceResults = ({ data }) => {
                     <IoStatsChartOutline className="tab-icon" />
                     Load Progress
                 </button>
+                <button
+                    className={`tab-button ${activeTab === 'overload' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('overload')}
+                >
+                    <IoStatsChartOutline className="tab-icon" />
+                    Overload
+                </button>
             </div>
 
             {/* Content */}
@@ -92,6 +100,9 @@ const PerformanceResults = ({ data }) => {
                     )}
                     {activeTab === 'progress' && (
                         <ProgressResults progressData={performanceData.loadProgressData} />
+                    )}
+                    {activeTab === 'overload' && (
+                        <OverloadResults overloadData={performanceData.overloadData} />
                     )}
                 </motion.div>
             </AnimatePresence>

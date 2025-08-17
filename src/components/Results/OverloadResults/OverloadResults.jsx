@@ -1,27 +1,36 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
 import {
     IoAnalyticsOutline,
-    IoArrowDownOutline,
-    IoArrowUpOutline,
     IoBarChartOutline,
-    IoCalendarOutline,
     IoFitnessOutline,
-    IoGridOutline,
     IoListOutline,
-    IoRemoveOutline,
     IoSpeedometerOutline,
     IoTrendingDownOutline,
     IoTrendingUpOutline
 } from 'react-icons/io5';
+import {
+    Area,
+    AreaChart,
+    Bar,
+    CartesianGrid,
+    ComposedChart,
+    Legend,
+    Line,
+    LineChart,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis
+} from 'recharts';
+import { chartTypes, itemVariants, metrics } from './animations';
 import './overloadResults.css';
-import { itemVariants } from './animations';
 
 
 const OverloadResults = ({ overloadData }) => {
     const [selectedMetric, setSelectedMetric] = useState('volume');
     const [selectedExercise, setSelectedExercise] = useState('');
-    const [selectedPeriod, setSelectedPeriod] = useState(null);
+    const [chartType, setChartType] = useState('line'); // 'line', 'area', 'composed'
 
     // Extraer ejercicios disponibles
     const availableExercises = useMemo(() => {
@@ -44,106 +53,244 @@ const OverloadResults = ({ overloadData }) => {
     const formatDate = (dateStr, format = 'short') => {
         const date = new Date(dateStr);
         const options = {
-            short: { day: 'numeric', month: 'short', year: '2-digit' },
+            short: { day: 'numeric', month: 'short' },
             long: { day: 'numeric', month: 'long', year: 'numeric' },
         };
         return date.toLocaleDateString('es-ES', options[format]);
     };
 
-    const formatNumber = (num, options = {}) => {
-        const { maximumFractionDigits = 1, compactDisplay = false } = options;
-
-        if (compactDisplay && Math.abs(num) >= 1000000) {
-            return (num / 1000000).toFixed(1) + 'M';
-        } else if (compactDisplay && Math.abs(num) >= 1000) {
-            return (num / 1000).toFixed(1) + 'K';
-        }
-
-        return new Intl.NumberFormat('es-ES', {
-            maximumFractionDigits,
-            minimumFractionDigits: 0
-        }).format(num);
-    };
-
-    const getProgressIndicator = (percentageChange) => {
-        if (percentageChange > 10) {
-            return {
-                icon: IoTrendingUpOutline,
-                color: '#059669',
-                bg: '#ecfdf5',
-                status: 'Excellent Progress'
-            };
-        } else if (percentageChange > 0) {
-            return {
-                icon: IoArrowUpOutline,
-                color: '#16a34a',
-                bg: '#f0fdf4',
-                status: 'Positive Progress'
-            };
-        } else if (percentageChange < -10) {
-            return {
-                icon: IoTrendingDownOutline,
-                color: '#dc2626',
-                bg: '#fef2f2',
-                status: 'Significant Decline'
-            };
-        } else if (percentageChange < 0) {
-            return {
-                icon: IoArrowDownOutline,
-                color: '#ea580c',
-                bg: '#fff7ed',
-                status: 'Minor Decline'
-            };
-        } else {
-            return {
-                icon: IoRemoveOutline,
-                color: '#6b7280',
-                bg: '#f9fafb',
-                status: 'No Change'
-            };
-        }
-    };
-
-    const processedData = useMemo(() => {
+    // Procesar datos para la gráfica
+    const chartData = useMemo(() => {
         if (!overloadData || !overloadData[selectedExercise]) {
-          return { periods: [], summary: null };
+            return [];
         }
 
         const rawPeriods = overloadData[selectedExercise];
         if (!Array.isArray(rawPeriods) || rawPeriods.length === 0) {
-          return { periods: [], summary: null };
+            return [];
         }
 
-        const periods = rawPeriods.map((period, index) => ({
-            id: index,
-            from: period.from,
-            to: period.to,
-            duration: Math.ceil((new Date(period.to) - new Date(period.from)) / (1000 * 60 * 60 * 24)),
-            metrics: period.metrics
+        return rawPeriods.map((period, index) => ({
+            period: `P${index + 1}`,
+            periodLabel: `${formatDate(period.from)} - ${formatDate(period.to)}`,
+            date: period.to,
+            volume: period.metrics.volume.percentage_diff,
+            absoluteIntensity: period.metrics.absolute_intensity.percentage_diff,
+            density: period.metrics.density.percentage_diff,
+            // Valores absolutos para el tooltip
+            volumeAbsolute: period.metrics.volume.current_value,
+            intensityAbsolute: period.metrics.absolute_intensity.current_value,
+            densityAbsolute: period.metrics.density.current_value,
+            // Cambios absolutos
+            volumeChange: period.metrics.volume.absolute_diff,
+            intensityChange: period.metrics.absolute_intensity.absolute_diff,
+            densityChange: period.metrics.density.absolute_diff,
         }));
-
-        const totalPeriods = periods.length;
-        const metricsProgress = {
-            volume: periods.map(p => p.metrics.volume.percentage_diff),
-            absolute_intensity: periods.map(p => p.metrics.absolute_intensity.percentage_diff),
-            density: periods.map(p => p.metrics.density.percentage_diff)
-        };
-
-        const avgProgress = {
-            volume: metricsProgress.volume.reduce((sum, val) => sum + val, 0) / totalPeriods,
-            absolute_intensity: metricsProgress.absolute_intensity.reduce((sum, val) => sum + val, 0) / totalPeriods,
-            density: metricsProgress.density.reduce((sum, val) => sum + val, 0) / totalPeriods
-        };
-
-        return { periods, summary: { totalPeriods, avgProgress } };
     }, [overloadData, selectedExercise]);
 
+    // Calcular estadísticas resumidas
+    const summary = useMemo(() => {
+        if (chartData.length === 0) return null;
 
-    const metrics = [
-        { key: 'volume', label: 'Volume', icon: IoBarChartOutline, unit: '' },
-        { key: 'absolute_intensity', label: 'Intensity', icon: IoSpeedometerOutline, unit: 'lbs' },
-        { key: 'density', label: 'Density', icon: IoFitnessOutline, unit: '' }
-    ];
+        const totalPeriods = chartData.length;
+        const metricsKeys = ['volume', 'absoluteIntensity', 'density'];
+
+        const avgProgress = metricsKeys.reduce((acc, metric) => {
+            const avg = chartData.reduce((sum, item) => sum + item[metric], 0) / totalPeriods;
+            acc[metric] = avg;
+            return acc;
+        }, {});
+
+        const lastPeriod = chartData[chartData.length - 1];
+
+        return {
+            totalPeriods,
+            avgProgress,
+            lastPeriod,
+            overallTrend: avgProgress[selectedMetric] > 0 ? 'positive' : 'negative'
+        };
+    }, [chartData, selectedMetric]);
+
+    const CustomTooltip = ({ active, payload, label }) => {
+        if (active && payload && payload.length) {
+            const data = payload[0].payload;
+            return (
+                <div className="custom-tooltip">
+                    <h4 className="tooltip-title">{data.periodLabel}</h4>
+                    <div className="tooltip-content">
+                        {payload.map((entry, index) => (
+                            <div key={index} className="tooltip-item" style={{ color: entry.color }}>
+                                <span className="tooltip-label">{entry.name}:</span>
+                                <span className="tooltip-value">
+                                    {entry.value > 0 ? '+' : ''}{entry.value.toFixed(1)}%
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+        return null;
+    };
+
+    const renderChart = () => {
+        const commonProps = {
+            width: '100%',
+            height: 400,
+            data: chartData,
+            margin: { top: 20, right: 30, left: 20, bottom: 60 }
+        };
+
+        switch (chartType) {
+            case 'area':
+                return (
+                    <AreaChart {...commonProps}>
+                        <defs>
+                            <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%" stopColor={metrics.find(m => m.key === selectedMetric)?.color} stopOpacity={0.8} />
+                                <stop offset="95%" stopColor={metrics.find(m => m.key === selectedMetric)?.color} stopOpacity={0.1} />
+                            </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                        <XAxis
+                            dataKey="period"
+                            stroke="#6b7280"
+                            tick={{ fontSize: 12 }}
+                            angle={-45}
+                            textAnchor="end"
+                            height={80}
+                        />
+                        <YAxis
+                            stroke="#6b7280"
+                            tick={{ fontSize: 12 }}
+                            label={{ value: 'Change (%)', angle: -90, position: 'insideLeft' }}
+                        />
+                        <Tooltip content={<CustomTooltip />} />
+                        <Area
+                            type="monotone"
+                            dataKey={selectedMetric}
+                            stroke={metrics.find(m => m.key === selectedMetric)?.color}
+                            strokeWidth={3}
+                            fill="url(#colorGradient)"
+                            dot={{ fill: metrics.find(m => m.key === selectedMetric)?.color, strokeWidth: 2, r: 6 }}
+                            activeDot={{ r: 8, stroke: metrics.find(m => m.key === selectedMetric)?.color, strokeWidth: 2 }}
+                        />
+                        {/* Línea de referencia en 0 */}
+                        <Line
+                            type="monotone"
+                            dataKey={() => 0}
+                            stroke="#ef4444"
+                            strokeDasharray="5 5"
+                            dot={false}
+                            strokeWidth={1}
+                        />
+                    </AreaChart>
+                );
+
+            case 'composed':
+                return (
+                    <ComposedChart {...commonProps}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                        <XAxis
+                            dataKey="period"
+                            stroke="#6b7280"
+                            tick={{ fontSize: 12 }}
+                            angle={-45}
+                            textAnchor="end"
+                            height={80}
+                        />
+                        <YAxis
+                            stroke="#6b7280"
+                            tick={{ fontSize: 12 }}
+                            label={{ value: 'Change (%)', angle: -90, position: 'insideLeft' }}
+                        />
+                        <Tooltip content={<CustomTooltip />} />
+                        <Legend />
+                        <Bar
+                            dataKey="volume"
+                            fill="#3b82f6"
+                            fillOpacity={0.6}
+                            name="Volume"
+                        />
+                        <Line
+                            type="monotone"
+                            dataKey="absoluteIntensity"
+                            stroke="#8b5cf6"
+                            strokeWidth={3}
+                            name="Intensity"
+                            dot={{ fill: "#8b5cf6", strokeWidth: 2, r: 4 }}
+                        />
+                        <Line
+                            type="monotone"
+                            dataKey="density"
+                            stroke="#10b981"
+                            strokeWidth={3}
+                            name="Density"
+                            dot={{ fill: "#10b981", strokeWidth: 2, r: 4 }}
+                        />
+                    </ComposedChart>
+                );
+
+            default: // line
+                return (
+                    <LineChart {...commonProps}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                        <XAxis
+                            dataKey="period"
+                            stroke="#6b7280"
+                            tick={{ fontSize: 12 }}
+                            angle={-45}
+                            textAnchor="end"
+                            height={80}
+                        />
+                        <YAxis
+                            stroke="#6b7280"
+                            tick={{ fontSize: 12 }}
+                            label={{ value: 'Change (%)', angle: -90, position: 'insideLeft' }}
+                        />
+                        <Tooltip content={<CustomTooltip />} />
+                        <Legend />
+                        <Line
+                            type="monotone"
+                            dataKey="volume"
+                            stroke="#3b82f6"
+                            strokeWidth={3}
+                            name="Volume"
+                            dot={{ fill: "#3b82f6", strokeWidth: 2, r: 6 }}
+                            activeDot={{ r: 8, stroke: "#3b82f6", strokeWidth: 2 }}
+                        />
+                        <Line
+                            type="monotone"
+                            dataKey="absoluteIntensity"
+                            stroke="#8b5cf6"
+                            strokeWidth={3}
+                            name="Intensity"
+                            dot={{ fill: "#8b5cf6", strokeWidth: 2, r: 6 }}
+                            activeDot={{ r: 8, stroke: "#8b5cf6", strokeWidth: 2 }}
+                        />
+                        <Line
+                            type="monotone"
+                            dataKey="density"
+                            stroke="#10b981"
+                            strokeWidth={3}
+                            name="Density"
+                            dot={{ fill: "#10b981", strokeWidth: 2, r: 6 }}
+                            activeDot={{ r: 8, stroke: "#10b981", strokeWidth: 2 }}
+                        />
+                        {/* Línea de referencia en 0 */}
+                        <Line
+                            type="monotone"
+                            dataKey={() => 0}
+                            stroke="#ef4444"
+                            strokeDasharray="5 5"
+                            dot={false}
+                            strokeWidth={1}
+                            name="Baseline"
+                        />
+                    </LineChart>
+                );
+        }
+    };
 
     if (!overloadData || Object.keys(overloadData).length === 0) {
         return (
@@ -158,7 +305,12 @@ const OverloadResults = ({ overloadData }) => {
     }
 
     return (
-        <div className="overload-results">
+        <motion.div
+            className="overload-results"
+            initial="hidden"
+            animate="visible"
+            variants={itemVariants}
+        >
             {/* Header Section */}
             <div className="overload-header">
                 <h2 className="overload-title">
@@ -166,262 +318,154 @@ const OverloadResults = ({ overloadData }) => {
                     Progressive Overload Analysis
                 </h2>
                 <p className="overload-subtitle">
-                    Track your progression across different training periods
+                    Visual progression tracking across training periods
                 </p>
             </div>
 
-            {/* Exercise Selector */}
-            <div className="exercise-selector">
-                <div className="selector-label">
-                    <IoListOutline className="selector-icon" />
-                    Select Exercise to Analyze:
-                </div>
-                <div className="exercise-buttons">
-                    {availableExercises.map(exercise => {
-                        const ExerciseIcon = exercise.icon;
-                        return (
-                            <button
-                                key={exercise.key}
-                                className={`exercise-button ${selectedExercise === exercise.key ? 'active' : ''}`}
-                                onClick={() => {
-                                    setSelectedExercise(exercise.key);
-                                    setSelectedPeriod(null);
-                                }}
-                            >
-                                <ExerciseIcon className="exercise-button-icon" />
-                                <span className="exercise-button-text">{exercise.name}</span>
-                            </button>
-                        );
-                    })}
-                </div>
-            </div>
-
             {/* Summary Cards */}
-            {processedData.summary && (
+            {summary && (
                 <div className="summary-section">
                     <div className="summary-cards">
-                        <motion.div className="summary-card" variants={itemVariants}>
+                        <motion.div
+                            className="summary-card periods"
+                            variants={itemVariants}
+                        >
                             <div className="summary-label">Total Periods</div>
-                            <div className="summary-value">{processedData.summary.totalPeriods}</div>
+                            <div className="summary-value">{summary.totalPeriods}</div>
                         </motion.div>
-                        <motion.div className="summary-card volume" variants={itemVariants}>
-                            <div className="summary-label">Avg Volume Progress</div>
-                            <div className="summary-value">
-                                {processedData.summary.avgProgress.volume >= 0 ? '+' : ''}
-                                {formatNumber(processedData.summary.avgProgress.volume)}%
+
+                        <motion.div
+                            className="summary-card trend"
+                            variants={itemVariants}
+                        >
+                            <div className="summary-label">Overall Trend</div>
+                            <div className={`summary-value trend-${summary.overallTrend}`}>
+                                {summary.overallTrend === 'positive' ? (
+                                    <><IoTrendingUpOutline /> Positive</>
+                                ) : (
+                                    <><IoTrendingDownOutline /> Negative</>
+                                )}
                             </div>
                         </motion.div>
-                        <motion.div className="summary-card intensity" variants={itemVariants}>
-                            <div className="summary-label">Avg Intensity Progress</div>
+
+                        <motion.div
+                            className="summary-card average"
+                            variants={itemVariants}
+                        >
+                            <div className="summary-label">Avg {metrics.find(m => m.key === selectedMetric)?.label}</div>
                             <div className="summary-value">
-                                {processedData.summary.avgProgress.absolute_intensity >= 0 ? '+' : ''}
-                                {formatNumber(processedData.summary.avgProgress.absolute_intensity)}%
+                                {summary.avgProgress[selectedMetric] > 0 ? '+' : ''}
+                                {summary.avgProgress[selectedMetric].toFixed(1)}%
                             </div>
                         </motion.div>
                     </div>
                 </div>
             )}
 
-            {/* Metric Selector */}
-            <div className="metric-selector">
-                <div className="selector-label">
-                    <IoGridOutline className="selector-icon" />
-                    Select Metric to Analyze:
+            {/* Controls Section */}
+            <div className="controls-section">
+                {/* Exercise Selector */}
+                <div className="exercise-selector">
+                    <div className="selector-label">
+                        <IoListOutline className="selector-icon" />
+                        Exercise:
+                    </div>
+                    <div className="exercise-buttons">
+                        {availableExercises.map(exercise => {
+                            const ExerciseIcon = exercise.icon;
+                            return (
+                                <button
+                                    key={exercise.key}
+                                    className={`exercise-button ${selectedExercise === exercise.key ? 'active' : ''}`}
+                                    onClick={() => setSelectedExercise(exercise.key)}
+                                >
+                                    <ExerciseIcon className="exercise-icon" />
+                                    {exercise.name}
+                                </button>
+                            );
+                        })}
+                    </div>
                 </div>
-                <div className="metric-buttons">
-                    {metrics.map(metric => {
-                        const MetricIcon = metric.icon;
-                        return (
-                            <button
-                                key={metric.key}
-                                className={`metric-button ${selectedMetric === metric.key ? 'active' : ''}`}
-                                onClick={() => setSelectedMetric(metric.key)}
-                            >
-                                <MetricIcon className="metric-icon" />
-                                {metric.label}
-                            </button>
-                        );
-                    })}
+
+                {/* Chart Type Selector */}
+                <div className="chart-type-selector">
+                    <div className="selector-label">
+                        <IoBarChartOutline className="selector-icon" />
+                        Chart Type:
+                    </div>
+                    <div className="chart-type-buttons">
+                        {chartTypes.map(type => {
+                            const TypeIcon = type.icon;
+                            return (
+                                <button
+                                    key={type.key}
+                                    className={`chart-type-button ${chartType === type.key ? 'active' : ''}`}
+                                    onClick={() => setChartType(type.key)}
+                                >
+                                    <TypeIcon className="type-icon" />
+                                    {type.label}
+                                </button>
+                            );
+                        })}
+                    </div>
                 </div>
-            </div>
 
-            {/* Current Selection Info */}
-            <div className="current-selection">
-                <div className="selection-info">
-                    <span className="selection-exercise">
-                        {selectedExercise}
-                    </span>
-                    <span className="selection-separator">•</span>
-                    <span className="selection-metric">
-                        {metrics.find(m => m.key === selectedMetric)?.label}
-                    </span>
-                </div>
-            </div>
-
-            {/* Timeline Visualization */}
-            {processedData.periods.length > 0 ? (
-                <div className="timeline-section">
-                    <h3 className="timeline-title">
-                        {metrics.find(m => m.key === selectedMetric)?.label} Progression Timeline
-                    </h3>
-                    <div className="timeline-container">
-                        <AnimatePresence>
-                            {processedData.periods.map((period, index) => {
-                                const metric = period.metrics[selectedMetric];
-                                const indicator = getProgressIndicator(metric.percentage_diff);
-                                const IndicatorIcon = indicator.icon;
-
+                {/* Metric Selector (solo para gráficas individuales) */}
+                {chartType !== 'line' && chartType !== 'composed' && (
+                    <div className="metric-selector">
+                        <div className="selector-label">
+                            <IoSpeedometerOutline className="selector-icon" />
+                            Metric:
+                        </div>
+                        <div className="metric-buttons">
+                            {metrics.map(metric => {
+                                const MetricIcon = metric.icon;
                                 return (
-                                    <motion.div
-                                        key={`${selectedExercise}-${period.id}`}
-                                        className="timeline-item"
-                                        variants={itemVariants}
-                                        initial="hidden"
-                                        animate="visible"
-                                        exit="hidden"
-                                        style={{ backgroundColor: indicator.bg }}
-                                        onClick={() => setSelectedPeriod(selectedPeriod === period.id ? null : period.id)}
+                                    <button
+                                        key={metric.key}
+                                        className={`metric-button ${selectedMetric === metric.key ? 'active' : ''}`}
+                                        onClick={() => setSelectedMetric(metric.key)}
+                                        style={{ borderColor: selectedMetric === metric.key ? metric.color : undefined }}
                                     >
-                                        <div className="timeline-header">
-                                            <div className="timeline-period">
-                                                <IoCalendarOutline className="calendar-icon" />
-                                                <span className="period-dates">
-                                                    {formatDate(period.from)} - {formatDate(period.to)}
-                                                </span>
-                                                <span className="period-duration">
-                                                    ({period.duration} days)
-                                                </span>
-                                            </div>
-                                            <div className="progress-indicator" style={{ color: indicator.color }}>
-                                                <IndicatorIcon className="indicator-icon" />
-                                                <span className="progress-percentage">
-                                                    {metric.percentage_diff >= 0 ? '+' : ''}{formatNumber(metric.percentage_diff)}%
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div className="progress-bar-container">
-                                            <div className="progress-bar-background">
-                                                <div
-                                                    className="progress-bar"
-                                                    style={{
-                                                        width: `${Math.min(Math.abs(metric.percentage_diff), 100)}%`,
-                                                        backgroundColor: indicator.color
-                                                    }}
-                                                />
-                                            </div>
-                                            <span className="progress-status" style={{ color: indicator.color }}>
-                                                {indicator.status}
-                                            </span>
-                                        </div>
-
-                                        {/* Detailed metrics when expanded */}
-                                        <AnimatePresence>
-                                            {selectedPeriod === period.id && (
-                                                <motion.div
-                                                    className="timeline-details"
-                                                    initial={{ opacity: 0, height: 0 }}
-                                                    animate={{ opacity: 1, height: 'auto' }}
-                                                    exit={{ opacity: 0, height: 0 }}
-                                                    transition={{ duration: 0.3 }}
-                                                >
-                                                    <div className="details-grid">
-                                                        <div className="detail-item">
-                                                            <span className="detail-label">Previous Value:</span>
-                                                            <span className="detail-value">
-                                                                {formatNumber(metric.previous, { compactDisplay: true })}
-                                                                {metrics.find(m => m.key === selectedMetric)?.unit}
-                                                            </span>
-                                                        </div>
-                                                        <div className="detail-item">
-                                                            <span className="detail-label">Next Value:</span>
-                                                            <span className="detail-value">
-                                                                {formatNumber(metric.next, { compactDisplay: true })}
-                                                                {metrics.find(m => m.key === selectedMetric)?.unit}
-                                                            </span>
-                                                        </div>
-                                                        <div className="detail-item highlight">
-                                                            <span className="detail-label">Absolute Change:</span>
-                                                            <span className="detail-value" style={{ color: indicator.color }}>
-                                                                {(metric.weight_diff || metric.dens_diff) >= 0 ? '+' : ''}
-                                                                {formatNumber(metric.weight_diff || metric.dens_diff, { compactDisplay: true })}
-                                                                {metrics.find(m => m.key === selectedMetric)?.unit}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    </motion.div>
+                                        <MetricIcon className="metric-icon" />
+                                        {metric.label}
+                                    </button>
                                 );
                             })}
-                        </AnimatePresence>
-                    </div>
-                </div>
-            ) : (
-                <div className="no-data-message">
-                    <IoAnalyticsOutline className="no-data-icon" />
-                    <h3>No Data Available</h3>
-                    <p>No progression data found for {selectedExercise}.</p>
-                </div>
-            )}
-
-            {/* Quick Insights */}
-            {processedData.periods.length > 0 && (
-                <div className="insights-section">
-                    <h3 className="insights-title">Quick Insights - {selectedExercise}</h3>
-                    <div className="insights-grid">
-                        <div className="insight-card">
-                            <div className="insight-header">
-                                <IoTrendingUpOutline className="insight-icon positive" />
-                                <span>Best Progress Period</span>
-                            </div>
-                            <div className="insight-content">
-                                {(() => {
-                                    const bestPeriod = processedData.periods.reduce((best, period) =>
-                                        period.metrics[selectedMetric].percentage_diff > best.metrics[selectedMetric].percentage_diff ? period : best
-                                    );
-                                    return (
-                                        <div>
-                                            <div className="insight-period">
-                                                {formatDate(bestPeriod.from)} - {formatDate(bestPeriod.to)}
-                                            </div>
-                                            <div className="insight-value positive">
-                                                +{formatNumber(bestPeriod.metrics[selectedMetric].percentage_diff)}%
-                                            </div>
-                                        </div>
-                                    );
-                                })()}
-                            </div>
-                        </div>
-
-                        <div className="insight-card">
-                            <div className="insight-header">
-                                <IoTrendingDownOutline className="insight-icon negative" />
-                                <span>Challenging Period</span>
-                            </div>
-                            <div className="insight-content">
-                                {(() => {
-                                    const worstPeriod = processedData.periods.reduce((worst, period) =>
-                                        period.metrics[selectedMetric].percentage_diff < worst.metrics[selectedMetric].percentage_diff ? period : worst
-                                    );
-                                    return (
-                                        <div>
-                                            <div className="insight-period">
-                                                {formatDate(worstPeriod.from)} - {formatDate(worstPeriod.to)}
-                                            </div>
-                                            <div className="insight-value negative">
-                                                {formatNumber(worstPeriod.metrics[selectedMetric].percentage_diff)}%
-                                            </div>
-                                        </div>
-                                    );
-                                })()}
-                            </div>
                         </div>
                     </div>
+                )}
+            </div>
+
+            {/* Chart Section */}
+            <motion.div
+                className="chart-section"
+                variants={itemVariants}
+                key={`${selectedExercise}-${chartType}-${selectedMetric}`}
+            >
+                <div className="chart-container">
+                    <ResponsiveContainer width="100%" height={400}>
+                        {renderChart()}
+                    </ResponsiveContainer>
                 </div>
-            )}
-        </div>
+            </motion.div>
+
+            {/* Chart Legend Info */}
+            <div className="chart-info">
+                <div className="info-item">
+                    <div className="info-indicator positive"></div>
+                    <span>Positive progression (improvement)</span>
+                </div>
+                <div className="info-item">
+                    <div className="info-indicator negative"></div>
+                    <span>Negative progression (decline)</span>
+                </div>
+                <div className="info-item">
+                    <div className="info-indicator baseline"></div>
+                    <span>Baseline (no change)</span>
+                </div>
+            </div>
+        </motion.div>
     );
 };
 

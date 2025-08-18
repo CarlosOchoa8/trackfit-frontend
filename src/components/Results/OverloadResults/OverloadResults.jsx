@@ -4,7 +4,6 @@ import {
     IoAnalyticsOutline,
     IoBarChartOutline,
     IoFitnessOutline,
-    IoGridOutline,
     IoListOutline,
     IoSpeedometerOutline,
     IoTrendingDownOutline,
@@ -24,9 +23,8 @@ import {
     XAxis,
     YAxis
 } from 'recharts';
-import { itemVariants } from './animations';
+import { chartTypes, itemVariants, metrics } from './animations';
 import './overloadResults.css';
-import { chartTypes, metrics } from './animations';
 
 
 const OverloadResults = ({ overloadData }) => {
@@ -396,14 +394,12 @@ const OverloadResults = ({ overloadData }) => {
                     </div>
                     <div className="exercise-buttons">
                         {availableExercises.map(exercise => {
-                            const ExerciseIcon = exercise.icon;
                             return (
                                 <button
                                     key={exercise.key}
                                     className={`exercise-button ${selectedExercise === exercise.key ? 'active' : ''}`}
                                     onClick={() => setSelectedExercise(exercise.key)}
                                 >
-                                    <ExerciseIcon className="exercise-icon" />
                                     {exercise.name}
                                 </button>
                             );

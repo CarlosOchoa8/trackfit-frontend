@@ -9,7 +9,7 @@ import {
     spinnerAnimation
 } from "./animations";
 import "./PerformanceCalculator.css";
-
+import testPerformanceData from "../../../body";
 
 const PerformanceCalculator = ({ exerciseData, handlePerformanceResults }) => {
 
@@ -30,7 +30,7 @@ const PerformanceCalculator = ({ exerciseData, handlePerformanceResults }) => {
             setIsLoading(false);
             // setShowResults(true);
             const body = {
-                exercises: exerciseData.map(item => ({
+                exercises: testPerformanceData.map(item => ({
                 // exercises: testData.map(item => ({
                     name: item.name,
                     data: item.data

@@ -15,7 +15,8 @@ export const itemVariants = {
 export const metrics = [
         { key: 'volume', label: 'Volume', icon: IoBarChartOutline, unit: '%', color: '#3b82f6' },
         { key: 'absoluteIntensity', label: 'Intensity', icon: IoSpeedometerOutline, unit: '%', color: '#8b5cf6' },
-        { key: 'density', label: 'Density', icon: IoFitnessOutline, unit: '%', color: '#10b981' }
+        { key: 'density', label: 'Density', icon: IoTrendingUpOutline, unit: '%', color: '#10b981' },
+        { key: 'weight', label: 'Weight', icon: IoFitnessOutline, unit: '%', color: '#f59e0b' }
     ];
 
 export const chartTypes = [

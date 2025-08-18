@@ -4,6 +4,7 @@ import {
     IoAnalyticsOutline,
     IoBarChartOutline,
     IoFitnessOutline,
+    IoGridOutline,
     IoListOutline,
     IoSpeedometerOutline,
     IoTrendingDownOutline,
@@ -23,8 +24,9 @@ import {
     XAxis,
     YAxis
 } from 'recharts';
-import { chartTypes, itemVariants, metrics } from './animations';
+import { itemVariants } from './animations';
 import './overloadResults.css';
+import { chartTypes, metrics } from './animations';
 
 
 const OverloadResults = ({ overloadData }) => {
@@ -76,14 +78,17 @@ const OverloadResults = ({ overloadData }) => {
             date: period.to,
             volume: period.metrics.volume.percentage_diff,
             absoluteIntensity: period.metrics.absolute_intensity.percentage_diff,
+            weight: period.metrics.weight.percentage_diff,
             density: period.metrics.density.percentage_diff,
             // Valores absolutos para el tooltip
             volumeAbsolute: period.metrics.volume.current_value,
             intensityAbsolute: period.metrics.absolute_intensity.current_value,
+            weightAbsolute: period.metrics.weight.current_value,
             densityAbsolute: period.metrics.density.current_value,
             // Cambios absolutos
             volumeChange: period.metrics.volume.absolute_diff,
             intensityChange: period.metrics.absolute_intensity.absolute_diff,
+            weightChange: period.metrics.weight.absolute_diff,
             densityChange: period.metrics.density.absolute_diff,
         }));
     }, [overloadData, selectedExercise]);
@@ -93,7 +98,7 @@ const OverloadResults = ({ overloadData }) => {
         if (chartData.length === 0) return null;
 
         const totalPeriods = chartData.length;
-        const metricsKeys = ['volume', 'absoluteIntensity', 'density'];
+        const metricsKeys = ['volume', 'absoluteIntensity', 'weight', 'density'];
 
         const avgProgress = metricsKeys.reduce((acc, metric) => {
             const avg = chartData.reduce((sum, item) => sum + item[metric], 0) / totalPeriods;
@@ -111,6 +116,7 @@ const OverloadResults = ({ overloadData }) => {
         };
     }, [chartData, selectedMetric]);
 
+    // Componente de tooltip personalizado
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
             const data = payload[0].payload;
@@ -133,6 +139,7 @@ const OverloadResults = ({ overloadData }) => {
         return null;
     };
 
+    // Renderizar la gráfica según el tipo seleccionado
     const renderChart = () => {
         const commonProps = {
             width: '100%',
@@ -222,6 +229,14 @@ const OverloadResults = ({ overloadData }) => {
                         />
                         <Line
                             type="monotone"
+                            dataKey="weight"
+                            stroke="#f59e0b"
+                            strokeWidth={3}
+                            name="Weight"
+                            dot={{ fill: "#f59e0b", strokeWidth: 2, r: 4 }}
+                        />
+                        <Line
+                            type="monotone"
                             dataKey="density"
                             stroke="#10b981"
                             strokeWidth={3}
@@ -267,6 +282,15 @@ const OverloadResults = ({ overloadData }) => {
                             name="Intensity"
                             dot={{ fill: "#8b5cf6", strokeWidth: 2, r: 6 }}
                             activeDot={{ r: 8, stroke: "#8b5cf6", strokeWidth: 2 }}
+                        />
+                        <Line
+                            type="monotone"
+                            dataKey="weight"
+                            stroke="#f59e0b"
+                            strokeWidth={3}
+                            name="Weight"
+                            dot={{ fill: "#f59e0b", strokeWidth: 2, r: 6 }}
+                            activeDot={{ r: 8, stroke: "#f59e0b", strokeWidth: 2 }}
                         />
                         <Line
                             type="monotone"

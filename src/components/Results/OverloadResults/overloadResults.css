@@ -101,6 +101,11 @@
     background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
 }
 
+.summary-card.weight {
+    border-color: #f59e0b;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+}
+
 .summary-label {
     font-size: 0.875rem;
     font-weight: 500;
@@ -256,7 +261,7 @@
     font-size: 1rem;
 }
 
-/* Metric Buttons */
+/* Metric Buttons - Tema coherente con variaciones de color */
 .metric-button {
     display: flex;
     align-items: center;
@@ -275,16 +280,25 @@
 }
 
 .metric-button:hover {
-    border-color: #8b5cf6;
-    color: #8b5cf6;
-    background-color: #faf5ff;
+    border-color: #059669;
+    color: #059669;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
 }
 
 .metric-button.active {
-    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-    border-color: #7c3aed;
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    border-color: #047857;
     color: white;
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+}
+
+.metric-button.active:hover {
+    background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+    border-color: #065f46;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(5, 150, 105, 0.4);
 }
 
 .metric-icon {

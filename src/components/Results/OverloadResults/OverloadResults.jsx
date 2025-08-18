@@ -73,7 +73,7 @@ const OverloadResults = ({ overloadData }) => {
         }
 
         return rawPeriods.map((period, index) => ({
-            period: `P${index + 1}`,
+            period: `${formatDate(period.from)} → ${formatDate(period.to)}`,
             periodLabel: `${formatDate(period.from)} - ${formatDate(period.to)}`,
             date: period.to,
             volume: period.metrics.volume.percentage_diff,

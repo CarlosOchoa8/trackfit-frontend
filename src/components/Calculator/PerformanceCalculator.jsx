@@ -30,7 +30,7 @@ const PerformanceCalculator = ({ exerciseData, handlePerformanceResults }) => {
             setIsLoading(false);
             // setShowResults(true);
             const body = {
-                exercises: testPerformanceData.map(item => ({
+                exercises: exerciseData.map(item => ({
                 // exercises: testData.map(item => ({
                     name: item.name,
                     data: item.data

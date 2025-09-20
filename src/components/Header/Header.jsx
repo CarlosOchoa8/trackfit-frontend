@@ -1,32 +1,56 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { IoIosFitness } from "react-icons/io";
+import { Link, useLocation } from "react-router-dom";
 import fitTrackLogo from "../../../fitTrackLogo.svg";
 import { mobileMenuAnimations } from './animations';
 import "./Header.css";
 
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
-  // Función para alternar el estado del menú
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+  const isActiveLink = (path) => {
+    return location.pathname === path;
   };
 
   return (
     <header className="header">
       <div className="logo">
-        <img src={fitTrackLogo} className="logo" alt="Vite logo" />
-        {/* <img src={logo} className="logo" alt="Vite logo" /> */}
-        {/* <h1>Mi Logo</h1> */}
+        <Link to="/">
+          <img src={fitTrackLogo} className="logo" alt="FitTrack logo" />
+        </Link>
       </div>
-      
+
       <nav className="desktop-menu">
         <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li>
+            <Link
+              to="/"
+              className={isActiveLink('/') ? 'active' : ''}
+            >
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/about"
+              className={isActiveLink('/about') ? 'active' : ''}
+            >
+              About
+            </Link>
+          </li>
+          {/* <li><a href="#services">Services</a></li> */}
+          {/* <li><a href="#contact">Contact</a></li> */}
         </ul>
       </nav>
 
@@ -50,8 +74,24 @@ const Header = () => {
           exit="exit"
         >
           <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About us</a></li>
+            <li>
+              <Link
+                to="/"
+                onClick={closeMobileMenu}
+                className={isActiveLink('/') ? 'active' : ''}
+              >
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/about"
+                onClick={closeMobileMenu}
+                className={isActiveLink('/about') ? 'active' : ''}
+              >
+                About
+              </Link>
+            </li>
           </ul>
         </motion.div>
       )}

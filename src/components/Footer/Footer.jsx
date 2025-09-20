@@ -1,68 +1,59 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { IoIosFitness, IoLogoInstagram, IoLogoTwitter, IoLogoFacebook } from "react-icons/io";
-import { IoMailOutline, IoLocationOutline, IoCallOutline } from "react-icons/io5";
+import { IoIosFitness } from "react-icons/io";
+import { Link, useLocation } from "react-router-dom";
 import fitTrackLogo from "../../../fitTrackLogo.svg";
+import { contactVariants } from "./animations";
 import "./Footer.css";
+
 
 const Footer = () => {
     const [isContactExpanded, setIsContactExpanded] = useState(false);
+    const location = useLocation();
 
     const toggleContact = () => {
         setIsContactExpanded(!isContactExpanded);
     };
 
-    const socialVariants = {
-        hover: {
-            scale: 1.2,
-            rotate: 5,
-            transition: { duration: 0.3 }
-        }
+    const isActiveLink = (path) => {
+        return location.pathname === path;
     };
 
-    const contactVariants = {
-        initial: { opacity: 0, height: 0 },
-        expanded: {
-            opacity: 1,
-            height: "auto",
-            transition: { duration: 0.4, ease: "easeInOut" }
-        },
-        collapsed: {
-            opacity: 0,
-            height: 0,
-            transition: { duration: 0.3, ease: "easeInOut" }
-        }
-    };
 
     return (
         <footer className="footer">
             <div className="footer-content">
                 <div className="footer-logo">
-                    <img src={fitTrackLogo} className="footer-logo-img" alt="FitTrack logo" />
+                    <Link to="/">
+                        <img src={fitTrackLogo} className="footer-logo-img" alt="FitTrack logo" />
+                    </Link>
                     <p className="footer-tagline">Your definitive fitness tracker</p>
-                    {/* <p className="footer-tagline">Tu compañero fitness definitivo</p> */}
                 </div>
 
                 <nav className="footer-nav">
                     <div className="footer-section">
                         <h3>Menu</h3>
                         <ul>
-                            <li><a href="#home">Home</a></li>
-                            <li><a href="#about">About</a></li>
-                            <li><a href="#services">Services</a></li>
-                            <li><a href="#contact">Contact</a></li>
+                            <li>
+                                <Link
+                                    to="/"
+                                    className={isActiveLink('/') ? 'active' : ''}
+                                >
+                                    Home
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    to="/about"
+                                    className={isActiveLink('/about') ? 'active' : ''}
+                                >
+                                    About
+                                </Link>
+                            </li>
+                            {/* <li><a href="#services">Services</a></li> */}
+                            {/* <li><a href="#contact">Contact</a></li> */}
                         </ul>
                     </div>
-
-                    {/* <div className="footer-section">
-                        <h3>Servicios</h3>
-                        <ul>
-                            <li><a href="#training">Entrenamiento Personal</a></li>
-                            <li><a href="#nutrition">Planes Nutricionales</a></li>
-                            <li><a href="#tracking">Seguimiento Fitness</a></li>
-                            <li><a href="#community">Comunidad</a></li>
-                        </ul>
-                    </div> */}
                 </nav>
 
                 <div className="footer-contact">
@@ -74,17 +65,16 @@ const Footer = () => {
                         >
                             <IoIosFitness size={24} color="#059669" />
                         </motion.div>
-                        <span>Contact</span>
+                        <span>Contact Info</span>
                     </div>
 
-                    {/* TODO hacer esto */}
-                    {/* <motion.div
+                    <motion.div
                         className="contact-info"
                         variants={contactVariants}
                         initial="initial"
                         animate={isContactExpanded ? "expanded" : "collapsed"}
                     >
-                        <div className="contact-item">
+                        {/* <div className="contact-item">
                             <IoMailOutline size={18} />
                             <span>info@fittrack.com</span>
                         </div>
@@ -95,11 +85,11 @@ const Footer = () => {
                         <div className="contact-item">
                             <IoLocationOutline size={18} />
                             <span>Ciudad Juárez, Chihuahua</span>
-                        </div>
-                    </motion.div> */}
+                        </div> */}
+                    </motion.div>
                 </div>
 
-                <div className="footer-social">
+                {/* <div className="footer-social">
                     <h3>Follow us</h3>
                     <div className="social-icons">
                         <motion.a
@@ -127,7 +117,7 @@ const Footer = () => {
                             <IoLogoFacebook size={24} />
                         </motion.a>
                     </div>
-                </div>
+                </div> */}
             </div>
 
             <div className="footer-bottom">

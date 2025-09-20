@@ -52,6 +52,13 @@ const PerformanceResults = ({ data }) => {
             {/* Tabs */}
             <div className="results-tabs">
                 <button
+                    className={`tab-button ${activeTab === 'overload' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('overload')}
+                >
+                    <IoStatsChartOutline className="tab-icon" />
+                    Overload
+                </button>
+                <button
                     className={`tab-button ${activeTab === 'volume' ? 'active' : ''}`}
                     onClick={() => setActiveTab('volume')}
                 >
@@ -71,13 +78,6 @@ const PerformanceResults = ({ data }) => {
                 >
                     <IoStatsChartOutline className="tab-icon" />
                     Load Progress
-                </button>
-                <button
-                    className={`tab-button ${activeTab === 'overload' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('overload')}
-                >
-                    <IoStatsChartOutline className="tab-icon" />
-                    Overload
                 </button>
             </div>
 

@@ -28,9 +28,9 @@ import './overloadResults.css';
 
 
 const OverloadResults = ({ overloadData }) => {
-    const [selectedMetric, setSelectedMetric] = useState('volume');
+    const [selectedMetric, setSelectedMetric] = useState('weight');
     const [selectedExercise, setSelectedExercise] = useState('');
-    const [chartType, setChartType] = useState('line'); // 'line', 'area', 'composed'
+    const [chartType, setChartType] = useState('area'); // 'line', 'area', 'composed'
 
     // Extraer ejercicios disponibles
     const availableExercises = useMemo(() => {
@@ -96,7 +96,7 @@ const OverloadResults = ({ overloadData }) => {
         if (chartData.length === 0) return null;
 
         const totalPeriods = chartData.length;
-        const metricsKeys = ['volume', 'absoluteIntensity', 'weight', 'density'];
+        const metricsKeys = ['weight', 'density', 'volume', 'absoluteIntensity'];
 
         const avgProgress = metricsKeys.reduce((acc, metric) => {
             const avg = chartData.reduce((sum, item) => sum + item[metric], 0) / totalPeriods;

@@ -1,4 +1,3 @@
-/* Estilos para el Header */
 .header {
     display: flex;
     justify-content: space-evenly;
@@ -11,8 +10,14 @@
     left: 0;
     right: 0;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1;
+    /* z-index: 1; */
+    z-index: 1000;
     max-height: 95px;
+}
+
+.logo a {
+    display: block;
+    text-decoration: none;
 }
 
 .logo h1 {
@@ -30,15 +35,41 @@
     gap: 20px;
 }
 
-.desktop-menu a {
+.desktop-menu a,
+.mobile-menu a {
     text-decoration: none;
     color: #fff;
     font-size: 16px;
-    transition: color 0.3s;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    padding: 8px 12px;
+    border-radius: 6px;
+    position: relative;
 }
 
-.desktop-menu a:hover {
+.desktop-menu a:hover,
+.mobile-menu a:hover {
     color: #059669;
+    background-color: rgba(5, 150, 105, 0.1);
+}
+
+.desktop-menu a.active,
+.mobile-menu a.active {
+    color: #059669;
+    background-color: rgba(5, 150, 105, 0.15);
+    font-weight: 600;
+}
+
+.desktop-menu a.active::after,
+.mobile-menu a.active::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 2px;
+    background-color: #059669;
+    border-radius: 1px;
 }
 
 .hamburger {
@@ -50,10 +81,16 @@
     height: 40px;
     cursor: pointer;
     background-color: #059669;
-    z-index: 1;
+    /* z-index: 1; */
+    z-index: 1001;
     border-radius: 50%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hamburger:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .mobile-menu {
@@ -63,8 +100,9 @@
     background-color: #333;
     width: 250px;
     padding: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
+    border: 1px solid #444;
 }
 
 .mobile-menu ul {
@@ -81,10 +119,8 @@
     text-decoration: none;
     color: #fff;
     font-size: 18px;
-}
-
-.mobile-menu a:hover {
-    color: #059669;
+    display: block;
+    text-align: center;
 }
 
 @media (min-width: 768px) {

@@ -1,28 +1,28 @@
-import { useState } from 'react'
-import './App.css'
-import Header from './components/Header/Header'
-import Footer from './components/Footer/Footer'
-import MainDev from './components/MainDev'
-import ExerciseApp from './components/ExercisesApp'
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import './App.css';
+
+import Layout from './components/Layout/Layout';
+
+import About from './pages/About/About';
+import Home from './pages/Home/Home';
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      {/* <Header/> */}
-      {/* <MainDev/> */}
-      {/* <ExerciseApp/> */}
-      {/* <Footer/> */}
-      <Header />
-
-      <div className="app-body">
-        <ExerciseApp />
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="about" element={<About />} />
+            {/* Puedes agregar más rutas aquí */}
+            {/* <Route path="services" element={<Services />} /> */}
+            {/* <Route path="contact" element={<Contact />} /> */}
+          </Route>
+        </Routes>
       </div>
-
-      <Footer />
-      </>
-  )
+    </Router>
+  );
 }
 
-export default App
+export default App;

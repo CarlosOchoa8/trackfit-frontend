@@ -16,7 +16,7 @@ import VolumeResults from "./VolumeResults/VolumeResults";
 import { containerVariants, tabContentVariants } from "./animations";
 
 const PerformanceResults = ({ data }) => {
-    const [activeTab, setActiveTab] = useState('volume');
+    const [activeTab, setActiveTab] = useState('overload');
 
     const performanceData = useMemo(() => {
         console.log(data)

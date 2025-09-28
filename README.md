@@ -51,8 +51,9 @@ npm run build
 
 Create a `.env` file in the root directory:
 ```env
-VITE_EXERCISE_BACKEND_API=http://localhost:80/
+VITE_EXERCISE_BACKEND_API=[TrackFit_Backend]
 ```
+[TrackFit_Backend](https://github.com/CarlosOchoa8/trackfit)
 
 ## 📊 Performance Visualization
 
